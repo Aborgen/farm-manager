@@ -1,42 +1,43 @@
 import { createContext, useState, useContext } from 'react';
 
-import { Crop } from 'types/Crops';
+import { Crop, SeedInfo } from 'types/Crops';
 
 const FarmSupply = createContext({});
-
-let initSeeds: any = {};
-initSeeds[Crop.Carrot] = {
-  count: 5,
-  max: 100,
+const initSeeds: SeedInfo = {
+  [Crop.Carrot]: { count: 5, max: 20 },
+  [Crop.Corn]:   { count: 5, max: 20 },
+  [Crop.Celery]: { count: 5, max: 20 },
 };
 
-function decSeeds(crop: Crop, seeds: any, setSeeds: any) {
-  if (seeds[crop].count === 0) {
-    throw Error("Tried to decrement seeds below 0");
-  }
+function useSeeds(defaultSeeds: SeedInfo) {
+  const [ seeds, setSeeds ] = useState(defaultSeeds);
 
-  console.log(seeds);
-  const nextSeeds = {
-    ...seeds,
-    'carrot': {
-      ...seeds[crop],
-      count: seeds[crop].count - 1
+  function decSeeds(crop: Crop) {
+    if (seeds[crop].count === 0) {
+      throw Error("Tried to decrement seeds below 0");
     }
+
+    let nextSeeds = { ...seeds };
+    nextSeeds[crop] = {
+        ...nextSeeds[crop],
+        count: nextSeeds[crop].count - 1
+    };
+
+    setSeeds(nextSeeds);
   }
 
-  setSeeds(nextSeeds);
+  return { seeds, setSeeds, decSeeds };
 }
 
 function FarmSupplyProvider(props: any) {
-  const [ seeds, setSeeds ] = useState(initSeeds);
+  const { seeds, decSeeds } = useSeeds(initSeeds);
   const contextStore = {
     seeds,
-    decSeeds: (crop: Crop) => decSeeds(crop, seeds, setSeeds),
-  }
+    decSeeds,
+  };
 
-  return <FarmSupply.Provider value={ contextStore }>{ props.children }</FarmSupply.Provider>
+  return (<FarmSupply.Provider value={ contextStore }>{ props.children }</FarmSupply.Provider>);
 }
-
 
 const useFarmSupplyContext = () => useContext(FarmSupply);
 export { useFarmSupplyContext, FarmSupplyProvider };
