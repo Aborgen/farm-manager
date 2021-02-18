@@ -29,9 +29,14 @@ function useSeeds(defaultSeeds: SeedStorage) {
   return { seeds, setSeeds, decSeeds };
 }
 
-function FarmSupplyProvider(props: any) {
+type FarmSupplyContextStore = {
+  seeds: SeedStorage,
+  decSeeds: Function,
+};
+
+function FarmSupplyProvider(props: { children: React.ReactNode }) {
   const { seeds, decSeeds } = useSeeds(initSeeds);
-  const contextStore = {
+  const contextStore: FarmSupplyContextStore = {
     seeds,
     decSeeds,
   };
@@ -39,5 +44,5 @@ function FarmSupplyProvider(props: any) {
   return (<FarmSupply.Provider value={ contextStore }>{ props.children }</FarmSupply.Provider>);
 }
 
-const useFarmSupplyContext = () => useContext(FarmSupply);
+const useFarmSupplyContext = () => useContext(FarmSupply) as FarmSupplyContextStore;
 export { useFarmSupplyContext, FarmSupplyProvider };

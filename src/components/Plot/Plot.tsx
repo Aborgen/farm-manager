@@ -1,5 +1,3 @@
-//@ts-nocheck
-
 import { useState } from 'react';
 
 import { useFarmSupplyContext } from 'context/FarmSupply';
@@ -11,12 +9,12 @@ enum PlotGrade {
   Good,
   Great,
   Excellent,
-}
+};
 
 interface PlotProps {
   id: number,
   grade: PlotGrade,
-}
+};
 
 const defaultRows = [
   {
