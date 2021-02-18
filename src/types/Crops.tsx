@@ -10,4 +10,7 @@ enum Crop {
   Celery = "celery",
 };
 
+type SeedInfo = Record<Crop, { max: number, count: number }>;
+
+export type { SeedInfo };
 export { GrowthStage, Crop };
