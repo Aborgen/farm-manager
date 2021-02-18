@@ -61,7 +61,7 @@ function Plot(props: PlotProps) {
     if (rowCount() === rows.length || rowCount() < rows.length) {
       return;
     }
-    else if (context.seeds[crop] === 0) {
+    else if (context.seeds[crop].count === 0) {
       console.log(`Out of ${crop} seeds!`);
     }
 

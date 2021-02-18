@@ -1,15 +1,15 @@
 import { createContext, useState, useContext } from 'react';
 
-import { Crop, SeedInfo } from 'types/Crops';
+import { Crop, SeedStorage } from 'types/Crops';
 
 const FarmSupply = createContext({});
-const initSeeds: SeedInfo = {
+const initSeeds: SeedStorage = {
   [Crop.Carrot]: { count: 5, max: 20 },
   [Crop.Corn]:   { count: 5, max: 20 },
   [Crop.Celery]: { count: 5, max: 20 },
 };
 
-function useSeeds(defaultSeeds: SeedInfo) {
+function useSeeds(defaultSeeds: SeedStorage) {
   const [ seeds, setSeeds ] = useState(defaultSeeds);
 
   function decSeeds(crop: Crop) {
