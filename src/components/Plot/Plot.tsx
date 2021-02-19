@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useFarmSupplyContext } from 'context/FarmSupply';
 import { GrowthStage, Crop } from 'types/Crops';
-import Row, { RowProps } from './internal/Row';
+import { Row, DefaultRow, RowProps } from './internal/Row';
 
 enum PlotGrade {
   Poor,
@@ -35,7 +35,7 @@ function Plot(props: PlotProps) {
   const [ rows, setRows ] = useState(defaultRows);
   const context = useFarmSupplyContext();
 
-  function rowCount() {
+  function rowMax() {
     let count = 0;
     switch (props.grade) {
       case PlotGrade.Poor:
@@ -56,7 +56,7 @@ function Plot(props: PlotProps) {
   }
 
   function plowRow(crop: Crop) {
-    if (rowCount() === rows.length || rowCount() < rows.length) {
+    if (rowMax() === rows.length || rowMax() < rows.length) {
       return;
     }
     else if (context.seeds[crop].count === 0) {
@@ -72,14 +72,29 @@ function Plot(props: PlotProps) {
     setRows([...rows, nextRow]);
   }
 
+  function renderRows() {
+    let l = [];
+    for (let i = 0; i < rowMax(); ++i) {
+      let row;
+      if (i < rows.length) {
+        row = <Row key={ i } { ...rows[i] } />;
+      }
+      else {
+        row = <DefaultRow key={ i } />;
+      }
+
+      l.push(row);
+    }
+
+    return l;
+  }
+
   return (
     <section className="plot">
       <button onClick={ () => plowRow(Crop.Carrot) }>Plant carrots</button>
-      <span className="counter">{ `${rows.length}/${rowCount()}` }</span>
+      <span className="counter">{ `${rows.length}/${rowMax()}` }</span>
       {
-        rows.map((row, key) => (
-          <Row key={ key } { ...row } />
-        ))
+        renderRows()
       }
     </section>
   );

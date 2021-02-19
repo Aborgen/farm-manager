@@ -13,5 +13,13 @@ function Row(props: RowProps) {
   );
 }
 
+function DefaultRow() {
+  return (
+    <div className="empty-row">
+      <span>empty!</span>
+    </div>
+  );
+}
+
 export type { RowProps };
-export default Row;
+export { Row, DefaultRow };
