@@ -1,11 +1,10 @@
-//@ts-nocheck
 import { createContext, useReducer, useContext } from 'react';
 
 const PlayerActions = createContext({});
 
 interface PlayerState {
   name: string,
-  focus: React.RefObject<React.ReactNode>,
+  focus: React.RefObject<React.ReactElement> | null,
 };
 
 const defaultPlayerState: PlayerState = {
@@ -17,7 +16,10 @@ enum Actions {
   Focus,
 };
 
-function reducer(state: PlayerState, action: { type: Actions, target: React.ReactNode }) {
+type ActionType =
+| { type: Actions.Focus, target: React.RefObject<React.ReactElement> };
+
+function reducer(state: PlayerState, action: ActionType) {
   switch(action.type) {
     case Actions.Focus: {
       if (state.focus === action.target) {
@@ -38,12 +40,12 @@ type PlayerActionsContextStore = {
   setFocus: Function,
 };
 
-function PlayerActionsProvider(props: { children: React.ReactNode }) {
+function PlayerActionsProvider(props: { children: React.ReactElement }) {
   const [ state, dispatch ] = useReducer(reducer, defaultPlayerState);
   const contextStore = {
     state,
     dispatch,
-    setFocus: (element: React.ReactNode) => dispatch({ type: Actions.Focus, target: element }),
+    setFocus: (element: React.RefObject<React.ReactElement>) => dispatch({ type: Actions.Focus, target: element }),
   };
 
   return <PlayerActions.Provider value = { contextStore }>{ props.children }</PlayerActions.Provider>;

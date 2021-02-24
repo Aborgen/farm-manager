@@ -1,8 +1,12 @@
-//@ts-nocheck
 import React, { useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { usePlayerActionsContext } from 'context/PlayerActions';
+
+type FocusableProps = {
+  handleClick: Function,
+  isFocused: boolean,
+};
 
 function FocusableWrapper(Component: React.ComponentType, props: any) {
   const ref = useRef();
@@ -17,7 +21,12 @@ function FocusableWrapper(Component: React.ComponentType, props: any) {
       return false;
     }
 
-    return context.state.focus && focusId === context.state.focus.current.props.focusId;
+    if (!context.state.focus.current) {
+      return false;
+    }
+
+    const currentFocusId = context.state.focus.current.props.focusId;
+    return focusId === currentFocusId;
   }
 
   return (
@@ -29,9 +38,11 @@ function FocusableWrapper(Component: React.ComponentType, props: any) {
   );
 }
 
-export function makeFocusable(Component, props) {
-  const forwardComponent = React.forwardRef((innerProps, ref) => <Component { ...innerProps } ref={ ref }/>);
+export type { FocusableProps };
+
+export function makeFocusable(Component: React.ComponentType<any>, props: any) {
+  const forwardComponent = React.forwardRef<React.ReactElement, any>((innerProps, ref) => <Component { ...innerProps } ref={ ref }/>);
   return FocusableWrapper(forwardComponent, props);
-}
+};
 
 export default FocusableWrapper;
