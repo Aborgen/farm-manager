@@ -1,3 +1,9 @@
+//@ts-nocheck
+import React, {useRef} from 'react';
+import { makeFocusable } from 'components/FocusableWrapper';
+import { PlayerActions } from 'context/PlayerActions';
+
+import { usePlayerActionsContext } from 'context/PlayerActions';
 import { Crop, GrowthStage } from 'types/Crops';
 
 interface RowProps {
@@ -6,11 +12,21 @@ interface RowProps {
 }
 
 function Row(props: RowProps) {
-  return (
-    <div className={ `${props.crop}-${props.stage}-row` }>
-      <span className={ props.crop }>{ props.crop }, stage {props.stage}</span>
-    </div>
-  );
+  class FocusableRow extends React.Component {
+    render() {
+      const { props } = this;
+      return (
+        <div className={ `${props.crop}-${props.stage}-row` }
+          onClick={ () => props.handleClick() }>
+          <span className={ `${props.crop}${ props.isFocused ? " focused" : "" }`  }>
+            { props.crop }, stage {props.stage}
+          </span>
+        </div>
+      );
+    }
+  }
+
+  return makeFocusable(FocusableRow, props);
 }
 
 function DefaultRow() {
