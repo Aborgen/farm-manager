@@ -5,6 +5,7 @@ import { makeFocusable, FocusableProps } from 'components/FocusableWrapper';
 import { FarmSupply, useFarmSupplyContext } from 'context/FarmSupply';
 import { GrowthStage, Crop } from 'types/Crops';
 import { Row, DefaultRow, RowProps } from './internal/Row';
+import PlowDialogue from './internal/PlowDialogue';
 
 enum PlotGrade {
   Poor,
@@ -35,7 +36,12 @@ const defaultRows = [
 
 function Plot(props: PlotProps) {
   class FocusablePlot extends React.Component<PlotProps & FocusableProps> {
-    rows = defaultRows;
+    constructor(props) {
+      super(props);
+      this.state = {
+        rows: defaultRows,
+      };
+    }
 
     rowMax() {
       let count = 0;
@@ -58,7 +64,7 @@ function Plot(props: PlotProps) {
     }
 
     plowRow(crop: Crop) {
-      if (this.rowMax() === this.rows.length || this.rowMax() < this.rows.length) {
+      if (this.rowMax() === this.state.rows.length || this.rowMax() < this.state.rows.length) {
         return;
       }
       else if (this.context.seeds[crop].count === 0) {
@@ -81,8 +87,8 @@ function Plot(props: PlotProps) {
       let l = [];
       for (let i = 0; i < this.rowMax(); ++i) {
         let row;
-        if (i < this.rows.length) {
-          row = <Row key={ i } { ...this.rows[i] } />;
+        if (i < this.state.rows.length) {
+          row = <Row key={ i } { ...this.state.rows[i] } />;
         }
         else {
           row = <DefaultRow key={ i } />;
@@ -98,8 +104,7 @@ function Plot(props: PlotProps) {
       return (
         <section className={`plot${this.props.isFocused ? " focused" : ""}`}
           onClick={ () => this.props.handleClick() }>
-          <button onClick={ () => plowRow(Crop.Carrot) }>Plant carrots</button>
-          <span className="counter">{ `${this.rows.length}/${this.rowMax()}` }</span>
+          <span className="counter">{ `${this.state.rows.length}/${this.rowMax()}` }</span>
           {
             this.renderRows()
           }
