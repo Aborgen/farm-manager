@@ -1,13 +1,16 @@
 import React from 'react';
+
 import { makeFocusable, FocusableProps } from 'components/FocusableWrapper';
 
 import { Crop, GrowthStage } from 'types/Crops';
 
 type RowProps = {
+  id: number,
   crop: Crop,
   stage: GrowthStage,
-}
+};
 
+type RowType = React.ReactElement<typeof Row> | React.ReactElement<typeof DefaultRow>;
 class RowClass extends React.Component<RowProps & FocusableProps> {
   render() {
     return (
@@ -34,5 +37,5 @@ function DefaultRow() {
   );
 }
 
-export type { RowProps };
+export type { RowProps, RowType };
 export { Row, DefaultRow };

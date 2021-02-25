@@ -32,6 +32,7 @@ function useSeeds(defaultSeeds: SeedStorage) {
 type FarmSupplyContextStore = {
   seeds: SeedStorage,
   decSeeds: Function,
+  hasSeeds: Function,
 };
 
 function FarmSupplyProvider(props: { children: React.ReactNode }) {
@@ -39,6 +40,7 @@ function FarmSupplyProvider(props: { children: React.ReactNode }) {
   const contextStore: FarmSupplyContextStore = {
     seeds,
     decSeeds,
+    hasSeeds: (crop: Crop) => seeds[crop].count > 0,
   };
 
   return (<FarmSupply.Provider value={ contextStore }>{ props.children }</FarmSupply.Provider>);
