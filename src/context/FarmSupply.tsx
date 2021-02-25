@@ -45,4 +45,4 @@ function FarmSupplyProvider(props: { children: React.ReactNode }) {
 }
 
 const useFarmSupplyContext = () => useContext(FarmSupply) as FarmSupplyContextStore;
-export { useFarmSupplyContext, FarmSupplyProvider };
+export { FarmSupply, useFarmSupplyContext, FarmSupplyProvider };
