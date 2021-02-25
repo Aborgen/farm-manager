@@ -13,7 +13,8 @@ function FocusableWrapper(Component: React.ComponentType) {
     const ref = useRef();
     const context = usePlayerActionsContext();
     const [focusId, _] = useState(uuidv4());
-    function handleClick() {
+    function handleClick(e: MouseEvent) {
+      e.stopPropagation();
       context.setFocus(ref);
     }
 
@@ -42,7 +43,6 @@ function FocusableWrapper(Component: React.ComponentType) {
 
 export type { FocusableProps };
 
-// NOTE: If a component is made focusable, none of its children can also be focusable. The child's ref.current is always set to null. (Bug?)
 export function makeFocusable(Component: React.ComponentType<any>) {
   const forwardComponent = React.forwardRef<React.ReactElement, any>((innerProps, ref) => <Component { ...innerProps } ref={ ref }/>);
   return FocusableWrapper(forwardComponent);

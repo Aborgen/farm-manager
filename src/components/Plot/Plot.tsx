@@ -85,7 +85,7 @@ class PlotClass extends React.Component<PlotProps & FocusableProps, any> {
   render() {
     return (
       <section className={`plot${this.props.isFocused ? " focused" : ""}`}
-        onClick={ () => this.props.handleClick() }>
+        onClick={ (e) => this.props.handleClick(e) }>
         { this.props.isFocused && <PlowDialogue plowRow={ this.plowRow.bind(this) } /> }
         <span className="counter">{ `${this.state.rows.length}/${this.rowMax()}` }</span>
         {
