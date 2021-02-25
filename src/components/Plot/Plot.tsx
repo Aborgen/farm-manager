@@ -18,20 +18,13 @@ interface PlotProps {
   grade: PlotGrade,
 };
 
-const defaultRows = [
-  {
-    crop: Crop.Carrot,
-    stage: GrowthStage.Growing,
-  },
-  {
-    crop: Crop.Carrot,
-    stage: GrowthStage.Growing,
-  },
-  {
-    crop: Crop.Carrot,
-    stage: GrowthStage.Finished,
-  },
-];
+class PlotClass extends React.Component<PlotProps & FocusableProps, any> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      rows: [],
+    };
+  }
 
 function Plot(props: PlotProps) {
   class FocusablePlot extends React.Component<PlotProps & FocusableProps> {
@@ -112,8 +105,11 @@ function Plot(props: PlotProps) {
     }
   }
 
-  FocusablePlot.contextType = FarmSupply;
-  return makeFocusable(FocusablePlot, props);
+PlotClass.contextType = FarmSupply;
+const FocusablePlot = makeFocusable(PlotClass);
+
+function Plot(props: PlotProps) {
+  return <FocusablePlot { ...props } />;
 }
 
 export type { PlotProps };
