@@ -15,7 +15,6 @@ enum PlotGrade {
 };
 
 interface PlotProps {
-  id: number,
   grade: PlotGrade,
 };
 
