@@ -13,21 +13,30 @@ const defaultPlayerState: PlayerState = {
 };
 
 enum Actions {
-  Focus,
+  SetFocus,
+  ClearFocus,
 };
 
 type ActionType =
-| { type: Actions.Focus, target: React.RefObject<React.ReactElement> };
+| { type: Actions.SetFocus, target: React.RefObject<React.ReactElement> }
+| { type: Actions.ClearFocus };
 
 function reducer(state: PlayerState, action: ActionType) {
   switch(action.type) {
-    case Actions.Focus: {
+    case Actions.SetFocus: {
       if (state.focus === action.target) {
         return state;
       }
 
       const focus = action.target;
       return { ...state, focus };
+    }
+    case Actions.ClearFocus: {
+      if ( state.focus === null ) {
+        return state;
+      }
+
+      return { ...state, focus: null };
     }
     default:
       return state;
@@ -38,6 +47,7 @@ type PlayerActionsContextStore = {
   state: PlayerState,
   dispatch: Function,
   setFocus: Function,
+  clearFocus: Function,
 };
 
 function PlayerActionsProvider(props: { children: React.ReactElement }) {
@@ -45,7 +55,8 @@ function PlayerActionsProvider(props: { children: React.ReactElement }) {
   const contextStore = {
     state,
     dispatch,
-    setFocus: (element: React.RefObject<React.ReactElement>) => dispatch({ type: Actions.Focus, target: element }),
+    setFocus: (element: React.RefObject<React.ReactElement>) => dispatch({ type: Actions.SetFocus, target: element }),
+    clearFocus: () => dispatch({ type: Actions.ClearFocus }),
   };
 
   return <PlayerActions.Provider value = { contextStore }>{ props.children }</PlayerActions.Provider>;
