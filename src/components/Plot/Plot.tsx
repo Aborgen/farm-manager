@@ -55,6 +55,30 @@ class PlotClass extends React.Component<PlotProps & FocusableProps, any> {
     return count;
   }
 
+  sellRow(idx: number) {
+    this.setState((prevState: any) => {
+      const length = this.state.rows.length - 1;
+      if (idx < 0 || idx > length) {
+        throw(`Tried to sell row at index ${idx}, but only have index up to ${length}`);
+      }
+
+      let rows: RowType[] = [];
+      prevState.rows.forEach((row: RowType, i: number) => {
+        if (i === idx) {
+          rows.push(<DefaultRow key={ i } />);
+        }
+        else {
+          rows.push(row);
+        }
+      });
+
+      return {
+        rows,
+        plowedRows: prevState.plowedRows - 1,
+      };
+    });
+  }
+
   plowRow(crop: Crop) {
     if (this.state.plowedRows === this.state.rows.length) {
       return;
