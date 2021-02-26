@@ -89,6 +89,7 @@ class PlotClass extends React.Component<PlotProps & FocusableProps, any> {
       return;
     }
 
+    this.context.seeds.decSeeds(crop);
     this.setState((prevState: any) => {
       let foundEmpty = false;
       let rows: RowType[] = [];
@@ -109,11 +110,6 @@ class PlotClass extends React.Component<PlotProps & FocusableProps, any> {
         }
       });
 
-      if (!foundEmpty) {
-        return null;
-      }
-
-      this.context.seeds.decSeeds(crop);
       return {
         rows,
         plowedRows: prevState.plowedRows + 1,
