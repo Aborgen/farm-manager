@@ -12,7 +12,7 @@ function FocusableWrapper(Component: React.ComponentType) {
   return function Focusable(props: any) {
     const ref = useRef();
     const context = usePlayerActionsContext();
-    const [focusId, _] = useState(uuidv4());
+    const focusId = useState(uuidv4())[0];
     function handleClick(e: MouseEvent) {
       e.stopPropagation();
       context.setFocus(ref);

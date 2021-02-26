@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import { Crop } from 'types/Crops';
-import { useFarmSupplyContext } from 'context/FarmSupply';
 import Plot, { PlotProps, PlotGrade } from './Plot/Plot';
 
 
@@ -15,8 +13,8 @@ const defaultProps: PlotProps[] = [
 ];
 
 export default function Field() {
+  //@ts-ignore
   const [ plots, setPlots ] = useState(defaultProps);
-  const context = useFarmSupplyContext();
   return (
     <div className="field">
       {

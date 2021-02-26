@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { FarmSupplyProvider } from 'context/FarmSupply';
 import { PlayerActionsProvider } from 'context/PlayerActions';
