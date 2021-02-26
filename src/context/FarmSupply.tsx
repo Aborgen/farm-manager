@@ -1,49 +1,82 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useReducer, useContext } from 'react';
 
 import { Crop, SeedStorage } from 'types/Crops';
 
 const FarmSupply = createContext({});
-const initSeeds: SeedStorage = {
+const defaultSeeds: SeedStorage = {
   [Crop.Carrot]: { count: 5, max: 20 },
   [Crop.Corn]:   { count: 5, max: 20 },
   [Crop.Celery]: { count: 5, max: 20 },
 };
 
-function useSeeds(defaultSeeds: SeedStorage) {
-  const [ seeds, setSeeds ] = useState(defaultSeeds);
+enum SeedsActions {
+  Dec,
+  Inc,
+};
 
-  function decSeeds(crop: Crop) {
-    if (seeds[crop].count === 0) {
-      throw Error("Tried to decrement seeds below 0");
+type SeedsActionsType =
+| { type: SeedsActions.Dec, crop: Crop }
+| { type: SeedsActions.Inc, crop: Crop };
+function seedStoreReducer(seedStore: SeedStorage, action: SeedsActionsType) {
+  switch (action.type) {
+    case SeedsActions.Dec: {
+      const { crop } = action;
+      if (seedStore[crop].count === 0) {
+        throw Error(`Tried to decrement ${crop} seeds below 0`);
+      }
+
+      const seeds = {
+        ...seedStore[crop],
+        count: seedStore[crop].count - 1
+      };
+
+      return { ...seedStore, [crop]: seeds };
     }
+    case SeedsActions.Inc: {
+      const { crop } = action;
+      if (seedStore[crop].count === seedStore[crop].max) {
+        throw Error(`Tried to increment ${crop} seeds above ${seedStore[crop].max}(max)`);
+      }
 
-    let nextSeeds = { ...seeds };
-    nextSeeds[crop] = {
-        ...nextSeeds[crop],
-        count: nextSeeds[crop].count - 1
-    };
+      const seeds = {
+        ...seedStore[crop],
+        count: seedStore[crop].count + 1
+      };
 
-    setSeeds(nextSeeds);
+      return { ...seedStore, [crop]: seeds };
+    }
+    default:
+      return seedStore;
   }
+}
 
-  return { seeds, setSeeds, decSeeds };
+type SeedsContextStore = {
+  state: SeedStorage,
+  decSeeds: Function,
+  incSeeds: Function,
+  hasSeeds: Function,
+};
+function useSeeds(defaultSeeds: SeedStorage) {
+  const [ state, dispatch ] = useReducer(seedStoreReducer, defaultSeeds);
+  const contextStore = {
+    state,
+    decSeeds: (crop: Crop) => dispatch({ type: SeedsActions.Dec, crop }),
+    incSeeds: (crop: Crop) => dispatch({ type: SeedsActions.Inc, crop }),
+    hasSeeds: (crop: Crop) => state[crop].count > 0,
+  };
+
+  return contextStore;
 }
 
 type FarmSupplyContextStore = {
-  seeds: SeedStorage,
-  decSeeds: Function,
-  hasSeeds: Function,
+  seeds: SeedsContextStore,
 };
-
 function FarmSupplyProvider(props: { children: React.ReactNode }) {
-  const { seeds, decSeeds } = useSeeds(initSeeds);
   const contextStore: FarmSupplyContextStore = {
-    seeds,
-    decSeeds,
-    hasSeeds: (crop: Crop) => seeds[crop].count > 0,
+    seeds: useSeeds(defaultSeeds),
   };
 
-  return (<FarmSupply.Provider value={ contextStore }>{ props.children }</FarmSupply.Provider>);
+  return <FarmSupply.Provider value={ contextStore }>{ props.children }</FarmSupply.Provider>;
 }
 
 const useFarmSupplyContext = () => useContext(FarmSupply) as FarmSupplyContextStore;

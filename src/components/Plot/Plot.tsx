@@ -84,7 +84,7 @@ class PlotClass extends React.Component<PlotProps & FocusableProps, any> {
       return;
     }
 
-    if (!this.context.hasSeeds(crop)) {
+    if (!this.context.seeds.hasSeeds(crop)) {
       console.log(`Out of ${crop} seeds!`);
       return;
     }
@@ -113,7 +113,7 @@ class PlotClass extends React.Component<PlotProps & FocusableProps, any> {
         return null;
       }
 
-      this.context.decSeeds(crop);
+      this.context.seeds.decSeeds(crop);
       return {
         rows,
         plowedRows: prevState.plowedRows + 1,
