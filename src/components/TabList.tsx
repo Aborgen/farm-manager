@@ -14,6 +14,7 @@ function TabList(props: TabListProps<any>) {
       {
         props.members.map((member, key) => (
           <button key={ key } className={ `tab${ member.identifier === props.selected ? " selected-button" : "" }` }
+            disabled={ member.identifier === props.selected }
             onClick={ () => props.handleClick(member.identifier) }>{ member.name }</button>
         ))
       }
