@@ -2,10 +2,11 @@ import { useState } from 'react';
 
 import TabList, { TabMember } from 'components/TabList';
 import SeedStall from './internal/SeedStall';
+import JobBoard from './internal/JobBoard';
 
 enum ShopSection {
   Seeds,
-  TEMP,
+  JobBoard,
 };
 
 const members: TabMember<ShopSection>[] = [
@@ -14,8 +15,8 @@ const members: TabMember<ShopSection>[] = [
     name: "Seeds",
   },
   {
-    identifier: ShopSection.TEMP,
-    name: "TEMP",
+    identifier: ShopSection.JobBoard,
+    name: "Job Board",
   },
 ];
 
@@ -31,8 +32,8 @@ function Shop() {
       case ShopSection.Seeds:
         node = <SeedStall />;
         break;
-      case ShopSection.TEMP:
-        node = <h2>THIS IS TEMPORARY</h2>;
+      case ShopSection.JobBoard:
+        node = <JobBoard />;
         break;
       default:
         return null;
