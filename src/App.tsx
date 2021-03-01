@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FarmSupplyProvider } from 'context/FarmSupply';
+import { FarmSupplyProvider } from 'context/FarmSupply/FarmSupply';
 import { PlayerActionsProvider } from 'context/PlayerActions';
 import TheUI from 'components/TheUI';
 import Field from 'components/Field';

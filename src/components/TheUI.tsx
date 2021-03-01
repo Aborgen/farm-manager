@@ -1,5 +1,5 @@
 import Shop from 'components/Shop/Shop';
-import { useFarmSupplyContext } from 'context/FarmSupply';
+import { useFarmSupplyContext } from 'context/FarmSupply/FarmSupply';
 import { usePlayerActionsContext } from 'context/PlayerActions';
 
 export default function TheUI() {

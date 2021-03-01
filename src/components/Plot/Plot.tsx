@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { makeFocusable, FocusableProps } from 'components/FocusableWrapper';
-import { FarmSupply } from 'context/FarmSupply';
+import { FarmSupply } from 'context/FarmSupply/FarmSupply';
 import { GrowthStage, Crop } from 'types/Crops';
 import { Row, DefaultRow, RowProps, RowType } from './internal/Row';
 import PlowDialogue from './internal/PlowDialogue';

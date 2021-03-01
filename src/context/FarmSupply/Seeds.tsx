@@ -1,8 +1,7 @@
-import { createContext, useReducer, useContext } from 'react';
+import { useReducer } from 'react';
 
 import { Crop, SeedStorage } from 'types/Crops';
 
-const FarmSupply = createContext({});
 const defaultSeeds: SeedStorage = {
   [Crop.Carrot]: { count: 5, max: 20 },
   [Crop.Corn]:   { count: 5, max: 20 },
@@ -17,6 +16,7 @@ enum SeedsActions {
 type SeedsActionsType =
 | { type: SeedsActions.Dec, crop: Crop }
 | { type: SeedsActions.Inc, crop: Crop };
+
 function seedStoreReducer(seedStore: SeedStorage, action: SeedsActionsType) {
   switch (action.type) {
     case SeedsActions.Dec: {
@@ -56,9 +56,10 @@ type SeedsContextStore = {
   incSeeds: Function,
   hasSeeds: Function,
 };
-function useSeeds(defaultSeeds: SeedStorage) {
+
+function useSeeds() {
   const [ state, dispatch ] = useReducer(seedStoreReducer, defaultSeeds);
-  const contextStore = {
+  const contextStore: SeedsContextStore = {
     state,
     decSeeds: (crop: Crop) => dispatch({ type: SeedsActions.Dec, crop }),
     incSeeds: (crop: Crop) => dispatch({ type: SeedsActions.Inc, crop }),
@@ -68,16 +69,5 @@ function useSeeds(defaultSeeds: SeedStorage) {
   return contextStore;
 }
 
-type FarmSupplyContextStore = {
-  seeds: SeedsContextStore,
-};
-function FarmSupplyProvider(props: { children: React.ReactNode }) {
-  const contextStore: FarmSupplyContextStore = {
-    seeds: useSeeds(defaultSeeds),
-  };
-
-  return <FarmSupply.Provider value={ contextStore }>{ props.children }</FarmSupply.Provider>;
-}
-
-const useFarmSupplyContext = () => useContext(FarmSupply) as FarmSupplyContextStore;
-export { FarmSupply, useFarmSupplyContext, FarmSupplyProvider };
+export type { SeedsContextStore };
+export { useSeeds };
