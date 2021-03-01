@@ -3,7 +3,7 @@ import { useFarmSupplyContext } from 'context/FarmSupply/FarmSupply';
 import { usePlayerActionsContext } from 'context/PlayerActions';
 
 export default function TheUI() {
-  const { seeds } = useFarmSupplyContext();
+  const { seeds, farmhands } = useFarmSupplyContext();
   const playerContext = usePlayerActionsContext();
   function clearFocus() {
     playerContext.clearFocus();
@@ -21,6 +21,7 @@ export default function TheUI() {
             ))
           }
         </ol>
+        <div className="farmhands">{ farmhands.state.length } farmhands employed</div>
         { playerContext.state.focus && <button onClick={ () => clearFocus() }>clear focus</button> }
       </section>
   );
