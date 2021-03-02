@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { makeFocusable, FocusableProps } from 'components/FocusableWrapper';
+import { makeFocusable, FocusableProps } from 'wrappers/FocusableWrapper';
 import SellDialogue from 'components/SellDialogue';
 
 import { Crop, GrowthStage } from 'types/Crops';
