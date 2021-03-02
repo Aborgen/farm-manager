@@ -104,6 +104,7 @@ type FarmhandsContextStore = {
   hire: Function,
   fire: Function,
   hasFarmhands: Function,
+  atCapacity: Function,
 };
 
 function useFarmhands() {
@@ -113,6 +114,7 @@ function useFarmhands() {
     hire: () => dispatch({ type: Actions.Hire }),
     fire: (specialty: Specialty, id: number) => dispatch({ type: Actions.Fire, specialty, id }),
     hasFarmhands: () => state.farmhandCount > 0,
+    atCapacity: () => state.farmhandCount === state.farmhandLimit,
   };
 
   return contextStore;
