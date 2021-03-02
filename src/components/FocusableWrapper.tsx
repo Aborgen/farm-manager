@@ -12,6 +12,7 @@ function FocusableWrapper(Component: React.ComponentType) {
   return function Focusable(props: any) {
     const ref = useRef();
     const context = usePlayerActionsContext();
+    // Don't ever expect to change focusId
     const focusId = useState(uuidv4())[0];
     function handleClick(e: MouseEvent) {
       e.stopPropagation();
@@ -19,11 +20,8 @@ function FocusableWrapper(Component: React.ComponentType) {
     }
 
     function isFocused() {
-      if (context.state === undefined || context.state.focus === null || context.state.focus.current == null) {
-        return false;
-      }
-
-      if (!context.state.focus.current) {
+      // focus's type is expected to be a react ref or null. A ref's current property may also be null.
+      if (context.state.focus === null || context.state.focus.current === null) {
         return false;
       }
 
