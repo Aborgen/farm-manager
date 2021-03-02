@@ -4,15 +4,11 @@ import { Crop } from 'types/Crops';
 function SeedStall() {
   const { seeds } = useFarmSupplyContext();
   function buySeed(crop: Crop) {
-    if (seedsAtCapacity(crop)) {
+    if (seeds.atCapacity(crop)) {
       return;
     }
 
     seeds.incSeeds(crop);
-  }
-
-  function seedsAtCapacity(crop: Crop) {
-    return seeds.state[crop].count === seeds.state[crop].max;
   }
 
   return (
@@ -23,9 +19,9 @@ function SeedStall() {
           <div key={ key } className="shop-item">
             { k } seeds
             <button
-              disabled={ seedsAtCapacity(v) }
+              disabled={ seeds.atCapacity(v) }
               onClick={ () => buySeed(v) }>
-              { seedsAtCapacity(v) ? "at capacity" : "buy" }
+              { seeds.atCapacity(v) ? "at capacity" : "buy" }
             </button>
           </div>
         ))

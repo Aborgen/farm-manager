@@ -55,6 +55,7 @@ type SeedsContextStore = {
   decSeeds: Function,
   incSeeds: Function,
   hasSeeds: Function,
+  atCapacity: Function,
 };
 
 function useSeeds() {
@@ -64,6 +65,7 @@ function useSeeds() {
     decSeeds: (crop: Crop) => dispatch({ type: SeedsActions.Dec, crop }),
     incSeeds: (crop: Crop) => dispatch({ type: SeedsActions.Inc, crop }),
     hasSeeds: (crop: Crop) => state[crop].count > 0,
+    atCapacity: (crop: Crop) => state[crop].count === state[crop].max,
   };
 
   return contextStore;
