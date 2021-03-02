@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+import { applyWrapperWithForwardRef } from './general'
 import { usePlayerActionsContext } from 'context/PlayerActions';
 
 type FocusableProps = {
@@ -42,8 +43,7 @@ function FocusableWrapper(Component: React.ComponentType) {
 export type { FocusableProps };
 
 export function makeFocusable(Component: React.ComponentType<any>) {
-  const forwardComponent = React.forwardRef<React.ReactElement, any>((innerProps, ref) => <Component { ...innerProps } ref={ ref }/>);
-  return FocusableWrapper(forwardComponent);
+  return applyWrapperWithForwardRef(FocusableWrapper, Component);
 };
 
 export default FocusableWrapper;
