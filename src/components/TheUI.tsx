@@ -21,7 +21,16 @@ export default function TheUI() {
             ))
           }
         </ol>
-        <div className="farmhands">{ farmhands.state.length } farmhands employed</div>
+        <ol className="farmhands">
+          {
+            Object.entries(farmhands.state.demographics).map(([category, info], key) => (
+            <li key={ key }>
+              { `${category}s: ${info.count}` }
+            </li>
+            ))
+          }
+          { farmhands.state.unassigned.count > 0 && <li>unassigned: { farmhands.state.unassigned.count }</li> }
+        </ol>
         { playerContext.state.focus && <button onClick={ () => clearFocus() }>clear focus</button> }
       </section>
   );

@@ -1,32 +1,34 @@
 import { useReducer } from 'react';
 
 enum Specialty {
-  None,
+  None = "farmhand",
 };
-
-const defaultFarmhands: Farmhand[] = [
-  {
-    id: 0,
-    specialty: Specialty.None,
-    assignment: null,
-  },
-  {
-    id: 1,
-    specialty: Specialty.None,
-    assignment: null,
-  },
-  {
-    id: 2,
-    specialty: Specialty.None,
-    assignment: null,
-  },
-];
-
 
 interface Farmhand {
   id: number,
   specialty: Specialty,
   assignment: React.ComponentType | null,
+};
+
+type Demographics = Record<Specialty, {
+    count: number,
+    farmhands: {
+      [id: number]: Farmhand,
+    },
+}>;
+
+const demographics: Demographics = {
+  [Specialty.None]: {
+    count: 0,
+    farmhands: {}
+  },
+};
+
+const defaultState: FarmhandState = {
+  farmhandCount: 0,
+  farmhandLimit: 20,
+  demographics,
+  unassigned: { count: 0 },
 };
 
 enum Actions {
@@ -36,45 +38,85 @@ enum Actions {
 
 type ActionsType =
 | { type: Actions.Hire }
-| { type: Actions.Fire, id: number };
+| { type: Actions.Fire, specialty: Specialty, id: number };
 
-function reducer(state: Farmhand[], action: ActionsType) {
+function reducer(state: FarmhandState, action: ActionsType) {
   switch (action.type) {
     case Actions.Hire: {
+      console.log("HIRING", state);
+      if (state.farmhandCount === state.farmhandLimit) {
+        throw Error(`Tried to increment farmhands above ${state.farmhandLimit}`);
+      }
+
       const nextWorker: Farmhand = {
         id: 0,
         specialty: Specialty.None,
         assignment: null,
       };
 
-      return [ ...state, nextWorker ];
+      const unassigned = { ...state.unassigned, [nextWorker.id]: nextWorker, count: state.unassigned.count + 1 };
+      const demographics = {
+        ...state.demographics,
+        [Specialty.None]: {
+          ...state.demographics[Specialty.None],
+          farmhands: { ...state.demographics[Specialty.None].farmhands, [nextWorker.id]: nextWorker },
+          count: state.demographics[Specialty.None].count + 1,
+        },
+      };
+
+      return {
+        ...state,
+        demographics,
+        unassigned,
+        farmhandCount: state.farmhandCount + 1,
+      };
     }
     case Actions.Fire: {
-      return state.filter(farmHand => farmHand.id !== action.id);
+      if (state.farmhandCount === 0) {
+        throw Error("Tried to decrement farmhands below 0");
+      }
+      else if (!(action.id in state.demographics[action.specialty])) {
+        throw Error(`Tried to fire a nonexistant farmhand [${action.specialty}:${action.id}]`);
+      }
+
+      let demographics = { ...state.demographics };
+      delete demographics[action.specialty].farmhands[action.id];
+      return {
+        ...state,
+        demographics,
+        farmhandCount: state.farmhandCount - 1,
+      };
     }
     default:
       return state;
   }
 }
 
+interface FarmhandState {
+  farmhandCount: number,
+  farmhandLimit: number,
+  demographics: Demographics,
+  unassigned: { [id:number]: Farmhand, count: number },
+};
+
 type FarmhandsContextStore = {
-  state: Farmhand[],
+  state: FarmhandState,
   hire: Function,
   fire: Function,
   hasFarmhands: Function,
 };
 
 function useFarmhands() {
-  const [ state, dispatch ] = useReducer(reducer, defaultFarmhands);
+  const [ state, dispatch ] = useReducer(reducer, defaultState);
   const contextStore: FarmhandsContextStore = {
     state,
     hire: () => dispatch({ type: Actions.Hire }),
-    fire: (id: number) => dispatch({ type: Actions.Fire, id }),
-    hasFarmhands: () => state.length > 0,
+    fire: (specialty: Specialty, id: number) => dispatch({ type: Actions.Fire, specialty, id }),
+    hasFarmhands: () => state.farmhandCount > 0,
   };
 
   return contextStore;
 }
 
-export type { FarmhandsContextStore };
+export type { FarmhandsContextStore, Farmhand };
 export { useFarmhands };
