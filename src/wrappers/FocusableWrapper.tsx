@@ -4,9 +4,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { applyWrapperWithForwardRef } from './general'
 import { usePlayerActionsContext } from 'context/PlayerActions';
 
-type FocusableProps = {
-  handleClick: Function,
+interface FocusableProps {
+  focusId: string,
   isFocused: boolean,
+  handleClick: Function,
 };
 
 function FocusableWrapper(Component: React.ComponentType) {
