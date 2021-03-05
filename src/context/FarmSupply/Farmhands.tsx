@@ -7,14 +7,16 @@ enum Specialty {
 interface Farmhand {
   id: number,
   specialty: Specialty,
-  assignment: React.ComponentType | null,
+  assignment: React.RefObject<React.ReactElement> | null,
+};
+
+interface FarmhandByIdentifier {
+  [id: number]: Farmhand
 };
 
 type Demographics = Record<Specialty, {
     count: number,
-    farmhands: {
-      [id: number]: Farmhand,
-    },
+    farmhands: FarmhandByIdentifier,
 }>;
 
 const demographics: Demographics = {
@@ -96,7 +98,7 @@ interface FarmhandState {
   farmhandCount: number,
   farmhandLimit: number,
   demographics: Demographics,
-  unassigned: { [id:number]: Farmhand, count: number },
+  unassigned: FarmhandByIdentifier & { count: number },
 };
 
 type FarmhandsContextStore = {
@@ -120,5 +122,5 @@ function useFarmhands() {
   return contextStore;
 }
 
-export type { FarmhandsContextStore, Farmhand };
-export { useFarmhands };
+export type { FarmhandsContextStore, Farmhand, FarmhandByIdentifier };
+export { useFarmhands, Specialty };
