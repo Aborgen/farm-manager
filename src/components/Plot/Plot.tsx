@@ -1,10 +1,12 @@
 import React from 'react';
 
-import { makeFocusable, FocusableProps } from 'wrappers/FocusableWrapper';
+import { makeEstablishment, EstablishmentProps } from 'wrappers/EstablishmentWrapper';
 import { FarmSupply } from 'context/FarmSupply/FarmSupply';
 import { GrowthStage, Crop } from 'types/Crops';
 import { Row, DefaultRow, RowProps, RowType } from './internal/Row';
 import PlowDialogue from './internal/PlowDialogue';
+import Farmhand from 'components/Farmhand';
+import { Specialty } from 'context/FarmSupply/Farmhands';
 
 enum PlotGrade {
   Poor,
@@ -13,12 +15,19 @@ enum PlotGrade {
   Excellent,
 };
 
+// PlotProps is needed by itself in Field, otherwise would extend EstablishmentProps
 interface PlotProps {
   grade: PlotGrade,
 };
 
-class PlotClass extends React.Component<PlotProps & FocusableProps, any> {
-  constructor(props: any) {
+const farmhand = {
+  id: 0,
+  assignment: null,
+  specialty: Specialty.None,
+};
+
+class PlotClass extends React.Component<PlotProps & EstablishmentProps, any> {
+  constructor(props: PlotProps & EstablishmentProps) {
     super(props);
     this.state = {
       rows: this.defaultRows(),
@@ -71,7 +80,7 @@ class PlotClass extends React.Component<PlotProps & FocusableProps, any> {
           rows.push(row);
         }
       });
-
+// TODO: Unset focus when row is sold
       return {
         rows,
         plowedRows: prevState.plowedRows - 1,
@@ -143,16 +152,24 @@ class PlotClass extends React.Component<PlotProps & FocusableProps, any> {
         {
           this.state.rows
         }
+        <div className="establishment-display">
+        {
+          Object.values(this.props.farmhands).map((farmhand, key) => (
+            <Farmhand key={ key } { ...farmhand } />
+          ))
+        }
+        </div>
+        <button onClick={ () => this.props.assignFarmhand(farmhand) }>assign farmhand</button>
       </section>
     );
   }
 }
 
 PlotClass.contextType = FarmSupply;
-const FocusablePlot = makeFocusable(PlotClass);
+const EstablishmentPlot = makeEstablishment(PlotClass);
 
 function Plot(props: PlotProps) {
-  return <FocusablePlot { ...props } />;
+  return <EstablishmentPlot { ...props } />;
 }
 
 export type { PlotProps };
