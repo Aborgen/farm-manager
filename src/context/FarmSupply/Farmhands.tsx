@@ -15,8 +15,8 @@ interface FarmhandByIdentifier {
 };
 
 type Demographics = Record<Specialty, {
-    count: number,
-    farmhands: FarmhandByIdentifier,
+  count: number,
+  farmhands: FarmhandByIdentifier,
 }>;
 
 const demographics: Demographics = {
