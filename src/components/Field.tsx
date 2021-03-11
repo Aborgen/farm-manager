@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import Plot, { PlotProps, PlotGrade } from './Plot/Plot';
+import Plot, { PlotProps, PlotGrade } from 'components/Plot';
 
 
 const defaultProps: PlotProps[] = [
