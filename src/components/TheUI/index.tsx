@@ -1,4 +1,4 @@
-import Shop from 'components/Shop/Shop';
+import Shop from 'components/Shop';
 import { useFarmSupplyContext } from 'context/FarmSupply';
 import { usePlayerActionsContext } from 'context/PlayerActions';
 import AssignmentPanel from './internal/AssignmentPanel';
