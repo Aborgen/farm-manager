@@ -6,9 +6,11 @@ import Plot, { PlotProps, PlotGrade } from './Plot/Plot';
 const defaultProps: PlotProps[] = [
   {
     grade: PlotGrade.Poor,
+    index: 1,
   },
   {
     grade: PlotGrade.Excellent,
+    index: 2,
   }
 ];
 

@@ -6,7 +6,6 @@ import { GrowthStage, Crop } from 'types/Crops';
 import { Row, DefaultRow, RowProps, RowType } from './internal/Row';
 import PlowDialogue from './internal/PlowDialogue';
 import Farmhand from 'components/Farmhand';
-import { Specialty } from 'context/FarmSupply/Farmhands';
 
 enum PlotGrade {
   Poor,
@@ -18,12 +17,7 @@ enum PlotGrade {
 // PlotProps is needed by itself in Field, otherwise would extend EstablishmentProps
 interface PlotProps {
   grade: PlotGrade,
-};
-
-const farmhand = {
-  id: 0,
-  assignment: null,
-  specialty: Specialty.None,
+  index: number,
 };
 
 class PlotClass extends React.Component<PlotProps & EstablishmentProps, any> {
@@ -32,6 +26,7 @@ class PlotClass extends React.Component<PlotProps & EstablishmentProps, any> {
     this.state = {
       rows: this.defaultRows(),
       plowedRows: 0,
+      name: `Plot${props.index}`,
     };
   }
 
@@ -144,6 +139,7 @@ class PlotClass extends React.Component<PlotProps & EstablishmentProps, any> {
   }
 
   render() {
+    console.log(this.props.farmhands);
     return (
       <section className={`plot${this.props.isFocused ? " focused" : ""}`}
         onClick={ (e) => this.props.handleClick(e) }>
@@ -159,7 +155,6 @@ class PlotClass extends React.Component<PlotProps & EstablishmentProps, any> {
           ))
         }
         </div>
-        <button onClick={ () => this.props.assignFarmhand(farmhand) }>assign farmhand</button>
       </section>
     );
   }
