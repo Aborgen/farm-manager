@@ -1,4 +1,4 @@
-import { useFarmSupplyContext } from 'context/FarmSupply/FarmSupply';
+import { useFarmSupplyContext } from 'context/FarmSupply';
 import { Crop } from 'types/Crops';
 
 function SeedStall() {

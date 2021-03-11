@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { makeEstablishment, EstablishmentProps } from 'wrappers/EstablishmentWrapper';
-import { FarmSupply } from 'context/FarmSupply/FarmSupply';
+import { FarmSupply } from 'context/FarmSupply';
 import { GrowthStage, Crop } from 'types/Crops';
 import { Row, DefaultRow, RowProps, RowType } from './internal/Row';
 import PlowDialogue from './internal/PlowDialogue';
