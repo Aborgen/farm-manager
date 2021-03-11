@@ -1,6 +1,7 @@
 import Shop from 'components/Shop/Shop';
-import { useFarmSupplyContext } from 'context/FarmSupply/FarmSupply';
+import { useFarmSupplyContext } from 'context/FarmSupply';
 import { usePlayerActionsContext } from 'context/PlayerActions';
+import AssignmentPanel from './internal/AssignmentPanel';
 
 export default function TheUI() {
   const { seeds, farmhands } = useFarmSupplyContext();
@@ -29,9 +30,10 @@ export default function TheUI() {
             </li>
             ))
           }
-          { farmhands.state.unassigned.count > 0 && <li>unassigned: { farmhands.state.unassigned.count }</li> }
+          { farmhands.state.unassigned.length > 0 && <li>unassigned: { farmhands.state.unassigned.length }</li> }
         </ol>
         { playerContext.state.focus && <button onClick={ () => clearFocus() }>clear focus</button> }
+        <AssignmentPanel />
       </section>
   );
 }

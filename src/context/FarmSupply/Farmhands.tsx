@@ -2,6 +2,11 @@ import { useReducer } from 'react';
 
 import { Demographics, Farmhand, FarmhandByIdentifier, Specialty } from 'types/Farmhands';
 
+interface FarmhandState {
+  farmhandCount: number,
+  farmhandLimit: number,
+  demographics: Demographics,
+  unassigned: Farmhand[],
 };
 
 const demographics: Demographics = {
@@ -15,22 +20,23 @@ const defaultState: FarmhandState = {
   farmhandCount: 0,
   farmhandLimit: 20,
   demographics,
-  unassigned: { count: 0 },
+  unassigned: [],
 };
 
 enum Actions {
   Hire,
   Fire,
+  OverwriteUnassigned,
 };
 
 type ActionsType =
 | { type: Actions.Hire }
-| { type: Actions.Fire, specialty: Specialty, id: number };
+| { type: Actions.Fire, specialty: Specialty, id: number }
+| { type: Actions.OverwriteUnassigned, unassigned: Farmhand[] };
 
 function reducer(state: FarmhandState, action: ActionsType) {
   switch (action.type) {
     case Actions.Hire: {
-      console.log("HIRING", state);
       if (state.farmhandCount === state.farmhandLimit) {
         throw Error(`Tried to increment farmhands above ${state.farmhandLimit}`);
       }
@@ -41,7 +47,7 @@ function reducer(state: FarmhandState, action: ActionsType) {
         assignment: null,
       };
 
-      const unassigned = { ...state.unassigned, [nextWorker.id]: nextWorker, count: state.unassigned.count + 1 };
+      const unassigned = [ ...state.unassigned, nextWorker ];
       const demographics = {
         ...state.demographics,
         [Specialty.None]: {
@@ -66,12 +72,30 @@ function reducer(state: FarmhandState, action: ActionsType) {
         throw Error(`Tried to fire a nonexistant farmhand [${action.specialty}:${action.id}]`);
       }
 
+      // 1) Delete farmhand from pool of farmhands.
       let demographics = { ...state.demographics };
+      const farmhand = demographics[action.specialty].farmhands[action.id];
       delete demographics[action.specialty].farmhands[action.id];
+      // 2) If farmhand is unassigned, remove from state.unassigned array. Else, invoke dismiss method of assigned Establishment. React will probably be upset about this...
+      let unassigned = state.unassigned;
+      if (farmhand.assignment === null) {
+        unassigned = unassigned.filter((fh => fh.id !== action.id));
+      }
+      else {
+        farmhand.assignment.current.props.dismiss(action.id);
+      }
+
       return {
         ...state,
         demographics,
+        unassigned,
         farmhandCount: state.farmhandCount - 1,
+      };
+    }
+    case Actions.OverwriteUnassigned: {
+      return {
+        ...state,
+        unassigned: action.unassigned,
       };
     }
     default:
@@ -79,19 +103,13 @@ function reducer(state: FarmhandState, action: ActionsType) {
   }
 }
 
-interface FarmhandState {
-  farmhandCount: number,
-  farmhandLimit: number,
-  demographics: Demographics,
-  unassigned: FarmhandByIdentifier & { count: number },
-};
-
 type FarmhandsContextStore = {
   state: FarmhandState,
   hire: Function,
   fire: Function,
   hasFarmhands: Function,
   atCapacity: Function,
+  overwriteUnassigned: Function,
 };
 
 function useFarmhands() {
@@ -102,6 +120,7 @@ function useFarmhands() {
     fire: (specialty: Specialty, id: number) => dispatch({ type: Actions.Fire, specialty, id }),
     hasFarmhands: () => state.farmhandCount > 0,
     atCapacity: () => state.farmhandCount === state.farmhandLimit,
+    overwriteUnassigned: (unassigned: Farmhand[]) => dispatch({ type: Actions.OverwriteUnassigned, unassigned }),
   };
 
   return contextStore;
