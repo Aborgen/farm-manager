@@ -1,23 +1,8 @@
 import { useReducer } from 'react';
 
-enum Specialty {
-  None = "farmhand",
-};
+import { Demographics, Farmhand, FarmhandByIdentifier, Specialty } from 'types/Farmhands';
 
-interface Farmhand {
-  id: number,
-  specialty: Specialty,
-  assignment: React.RefObject<React.ReactElement> | null,
 };
-
-interface FarmhandByIdentifier {
-  [id: number]: Farmhand
-};
-
-type Demographics = Record<Specialty, {
-  count: number,
-  farmhands: FarmhandByIdentifier,
-}>;
 
 const demographics: Demographics = {
   [Specialty.None]: {

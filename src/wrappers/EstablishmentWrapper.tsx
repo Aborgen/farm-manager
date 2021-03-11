@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { FarmhandByIdentifier, Farmhand } from 'context/FarmSupply/Farmhands';
+import { FarmhandByIdentifier, Farmhand } from 'types/Farmhands';
 import { makeFocusable, FocusableProps } from './FocusableWrapper';
 import { applyWrapperWithForwardRef } from './general';
 

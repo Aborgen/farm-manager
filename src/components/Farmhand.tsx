@@ -1,4 +1,4 @@
-import { Farmhand as FarmhandT, Specialty } from 'context/FarmSupply/Farmhands';
+import { Farmhand as FarmhandT, Specialty } from 'types/Farmhands';
 
 
 function specialtyToClass(specialty: Specialty) {
