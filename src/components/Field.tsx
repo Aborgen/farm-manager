@@ -7,10 +7,12 @@ const defaultProps: PlotProps[] = [
   {
     grade: PlotGrade.Poor,
     index: 1,
+    name: "Plot1",
   },
   {
     grade: PlotGrade.Excellent,
     index: 2,
+    name: "Plot2",
   }
 ];
 

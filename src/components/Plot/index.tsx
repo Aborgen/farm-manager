@@ -18,6 +18,7 @@ enum PlotGrade {
 interface PlotProps {
   grade: PlotGrade,
   index: number,
+  name: string,
 };
 
 class PlotClass extends React.Component<PlotProps & EstablishmentProps, any> {
@@ -26,7 +27,6 @@ class PlotClass extends React.Component<PlotProps & EstablishmentProps, any> {
     this.state = {
       rows: this.defaultRows(),
       plowedRows: 0,
-      name: `Plot${props.index}`,
     };
   }
 
@@ -122,11 +122,11 @@ class PlotClass extends React.Component<PlotProps & EstablishmentProps, any> {
   }
 
   renderRows() {
-    let l = [];
+    let l: RowType[] = [];
     for (let i = 0; i < this.rowMax(); ++i) {
       let row;
       if (i < this.state.rows.length) {
-        row = <Row key={ i } { ...this.state.rows[i] } />;
+        row = this.state.rows[i];
       }
       else {
         row = <DefaultRow key={ i } />;
@@ -139,7 +139,6 @@ class PlotClass extends React.Component<PlotProps & EstablishmentProps, any> {
   }
 
   render() {
-    console.log(this.props.farmhands);
     return (
       <section className={`plot${this.props.isFocused ? " focused" : ""}`}
         onClick={ (e) => this.props.handleClick(e) }>
