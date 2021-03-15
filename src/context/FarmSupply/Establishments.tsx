@@ -1,10 +1,8 @@
-//@ts-nocheck
 import { useReducer } from 'react';
 import { Farmhand } from 'types/Farmhands';
 import { EstablishmentProps } from 'wrappers/EstablishmentWrapper';
  
-type Foo = React.RefObject<React.ComponentElement<EstablishmentProps, any>>;
-type Establishment = Omit<Foo, "current"> & { current: React.ComponentElement<EstablishmentProps, any> };
+type Establishment = React.RefObject<React.ReactElement<EstablishmentProps & any>>;
 const defaultState: EstablishmentState = {
   establishments: [],
 };
@@ -45,7 +43,13 @@ function useEstablishments() {
     state,
     get: () => state.establishments,
     push: (establishment: Establishment) => dispatch({ type: Actions.Push, establishment }),
-    assignTo: (establishment: Establishment, farmhands: Farmhand) => establishment.current.props.assignTo(farmhands),
+    assignTo: (establishment: Establishment, farmhands: Farmhand) => {
+      if (establishment.current === null) {
+        throw Error("Tried to assign to a nonexistant establishment");
+      }
+
+      establishment.current.props.assignTo(farmhands);
+    },
   };
 
   return contextStore;
