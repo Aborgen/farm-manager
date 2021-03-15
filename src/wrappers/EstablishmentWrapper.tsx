@@ -10,7 +10,9 @@ interface EstablishmentProps extends FocusableProps {
   farmhands: FarmhandByIdentifier,
   assignTo: Function,
   dismiss: Function,
+  canAcceptNFarmhands: Function,
   atFarmhandCapacity: Function,
+  farmhandSlotsAvailable: Function,
 };
 
 function EstablishmentWrapper(Component: React.ComponentType<any>) {
@@ -37,8 +39,8 @@ function EstablishmentWrapper(Component: React.ComponentType<any>) {
 //    }
 
     function assignFarmhand(farmhands: Farmhand[]) {
-      if (atFarmhandCapacity()) {
-        return;
+      if (!canAcceptNFarmhands(farmhands.length)) {
+        throw Error(`Cannot exceed farmhand capacity: tried to assign ${farmhands.length} while at ${farmhandCount}`)
       }
 
       let nextFarmhands: FarmhandByIdentifier = {};
@@ -64,11 +66,23 @@ function EstablishmentWrapper(Component: React.ComponentType<any>) {
       return farmhandCount === farmhandCapacity;
     }
 
+    function farmhandSlotsAvailable() {
+      return farmhandCapacity - farmhandCount;
+    }
+
+    function canAcceptNFarmhands(n: number) {
+      return (farmhandCount + n) <= farmhandCapacity;
+    }
+
     return (
       <Component { ...props }
         ref={ ref }
         farmhands={ farmhands }
+        farmhandCapacity={ farmhandCapacity }
+        farmhandCount={ farmhandCount }
+        canAcceptNFarmhands={ canAcceptNFarmhands }
         atFarmhandCapacity={ atFarmhandCapacity }
+        farmhandSlotsAvailable={ farmhandSlotsAvailable }
         assignTo={ assignFarmhand }
         dismiss={ dismiss } />
     );
