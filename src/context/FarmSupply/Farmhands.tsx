@@ -82,6 +82,10 @@ function reducer(state: FarmhandState, action: ActionsType) {
         unassigned = unassigned.filter((fh => fh.id !== action.id));
       }
       else {
+        if (farmhand.assignment.current === null) {
+          throw Error(`Farmhand's assignment ref is not null, but the current property is null ${farmhand}`);
+        }
+
         farmhand.assignment.current.props.dismiss(action.id);
       }
 
