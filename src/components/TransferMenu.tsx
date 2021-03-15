@@ -4,6 +4,8 @@ interface TransferMenuProps<T> {
   DisplayComponent: React.ComponentType<T>,
   available: T[],
   commitTransfer: (inBound: T[], outBound: T[]) => void,
+  transferCountInc: Function,
+  transferCountDec: Function,
 };
 
 interface MemberById<T> {
@@ -21,9 +23,7 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
   const [ outbound, setOutbound ] = useState<MemberById<T>>({});
 
   useEffect(() => {
-    setInbound({});
     setOutbound({});
-    // This has to be done for some reason.
     setInbound(processInbound());
   }, [props.available]);
 
@@ -48,6 +48,7 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
 
         setInbound({ ...inbound, [id]: outbound[id]});
         setOutbound(nextOutbound);
+        props.transferCountDec();
         break;
       }
       case Pane.Right: {
@@ -60,11 +61,13 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
 
         setInbound(nextInbound);
         setOutbound({ ...outbound, [id]: inbound[id]});
+        props.transferCountInc();
         break;
       }
       default:
         throw Error(`Unknown Pane enum value: ${pane}`);
     }
+
   }
 
   function commitTransfer() {
