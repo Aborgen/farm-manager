@@ -26,12 +26,14 @@ const defaultState: FarmhandState = {
 enum Actions {
   Hire,
   Fire,
+  SetFarmhandLimit,
   OverwriteUnassigned,
 };
 
 type ActionsType =
 | { type: Actions.Hire }
 | { type: Actions.Fire, specialty: Specialty, id: number }
+| { type: Actions.SetFarmhandLimit, limit: number }
 | { type: Actions.OverwriteUnassigned, unassigned: Farmhand[] };
 
 function reducer(state: FarmhandState, action: ActionsType) {
@@ -96,6 +98,15 @@ function reducer(state: FarmhandState, action: ActionsType) {
         farmhandCount: state.farmhandCount - 1,
       };
     }
+    case Actions.SetFarmhandLimit: {
+      if (action.limit < state.farmhandCount) {
+        throw Error(`Tried to set farmhandLimit to ${action.limit}, which is less than current farmhand count ${state.farmhandCount}`)
+      }
+      return {
+        ...state,
+        farmhandLimit: action.limit,
+      };
+    }
     case Actions.OverwriteUnassigned: {
       return {
         ...state,
@@ -111,6 +122,7 @@ type FarmhandsContextStore = {
   state: FarmhandState,
   hire: Function,
   fire: Function,
+  setFarmhandLimit,
   hasFarmhands: Function,
   atCapacity: Function,
   overwriteUnassigned: Function,
@@ -122,6 +134,7 @@ function useFarmhands() {
     state,
     hire: () => dispatch({ type: Actions.Hire }),
     fire: (specialty: Specialty, id: number) => dispatch({ type: Actions.Fire, specialty, id }),
+    setFarmhandLimit: (limit: number) => dispatch({ type: Actions.SetFarmhandLimit, limit }),
     hasFarmhands: () => state.farmhandCount > 0,
     atCapacity: () => state.farmhandCount === state.farmhandLimit,
     overwriteUnassigned: (unassigned: Farmhand[]) => dispatch({ type: Actions.OverwriteUnassigned, unassigned }),
