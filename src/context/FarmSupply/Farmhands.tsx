@@ -122,7 +122,7 @@ type FarmhandsContextStore = {
   state: FarmhandState,
   hire: Function,
   fire: Function,
-  setFarmhandLimit,
+  setFarmhandLimit: Function,
   hasFarmhands: Function,
   atCapacity: Function,
   overwriteUnassigned: Function,
