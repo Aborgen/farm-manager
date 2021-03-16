@@ -68,7 +68,7 @@ function reducer(state: FarmhandState, action: ActionsType) {
       if (state.farmhandCount === 0) {
         throw Error("Tried to decrement farmhands below 0");
       }
-      else if (!(action.id in state.demographics[action.specialty])) {
+      else if (!(action.id in state.demographics[action.specialty].farmhands)) {
         throw Error(`Tried to fire a nonexistant farmhand [${action.specialty}:${action.id}]`);
       }
 
