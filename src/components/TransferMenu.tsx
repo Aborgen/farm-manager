@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-interface TransferMenuProps<T> {
+export interface TransferMenuProps<T> {
   DisplayComponent: React.ComponentType<T>,
   available: T[],
   commitTransfer: (inBound: T[], outBound: T[]) => void,
