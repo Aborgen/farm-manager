@@ -1,13 +1,13 @@
 import { Establishment } from 'context/FarmSupply/Establishments';
 
 export interface Farmhand {
-  id: number,
+  id: string,
   specialty: Specialty,
   assignment: Establishment | null,
 };
 
 export interface FarmhandByIdentifier {
-  [id: number]: Farmhand
+  [id: string]: Farmhand
 };
 
 export type Demographics = Record<Specialty, {

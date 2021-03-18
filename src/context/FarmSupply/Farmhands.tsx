@@ -1,4 +1,5 @@
 import { useReducer } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import { Demographics, Farmhand, FarmhandByIdentifier, Specialty } from 'types/Farmhands';
 
@@ -32,7 +33,7 @@ enum Actions {
 
 type ActionsType =
 | { type: Actions.Hire }
-| { type: Actions.Fire, specialty: Specialty, id: number }
+| { type: Actions.Fire, specialty: Specialty, id: string }
 | { type: Actions.SetFarmhandLimit, limit: number }
 | { type: Actions.OverwriteUnassigned, unassigned: Farmhand[] };
 
@@ -44,11 +45,10 @@ function reducer(state: FarmhandState, action: ActionsType) {
       }
 
       const nextWorker: Farmhand = {
-        id: 0,
+        id: uuidv4(),
         specialty: Specialty.None,
         assignment: null,
       };
-
       const unassigned = [ ...state.unassigned, nextWorker ];
       const demographics = {
         ...state.demographics,
@@ -133,7 +133,7 @@ function useFarmhands() {
   const contextStore: FarmhandsContextStore = {
     state,
     hire: () => dispatch({ type: Actions.Hire }),
-    fire: (specialty: Specialty, id: number) => dispatch({ type: Actions.Fire, specialty, id }),
+    fire: (specialty: Specialty, id: string) => dispatch({ type: Actions.Fire, specialty, id }),
     setFarmhandLimit: (limit: number) => dispatch({ type: Actions.SetFarmhandLimit, limit }),
     hasFarmhands: () => state.farmhandCount > 0,
     atCapacity: () => state.farmhandCount === state.farmhandLimit,

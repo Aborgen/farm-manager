@@ -53,7 +53,7 @@ function EstablishmentWrapper(Component: React.ComponentType<any>) {
       setFarmhandCount(farmhandCount + farmhandArray.length);
     }
 
-    function dismiss(id: number) {
+    function dismiss(id: string) {
       let nextFarmhands = { ...farmhands };
       delete nextFarmhands[id];
       setFarmhands(nextFarmhands);
