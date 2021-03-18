@@ -41,7 +41,8 @@ function AssignmentPanel() {
         DisplayComponent={ Farmhand }
         commitTransfer={ commitTransfer }
         transferCountInc={ () => setTransferCount(transferCount + 1) }
-        transferCountDec={ () => setTransferCount(transferCount - 1) } />
+        transferCountDec={ () => setTransferCount(transferCount - 1) }
+        transferCountReset={ () => setTransferCount(0) } />
       <select size={ Math.min(establishments.get().length + 1, 7) } value={ currentOption === null ? "-1" : currentOption } onChange={ (e) => setCurrentOption(e.target.value) }>
       <option value="-1"></option>
       {

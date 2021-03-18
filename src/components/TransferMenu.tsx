@@ -6,6 +6,7 @@ export interface TransferMenuProps<T> {
   commitTransfer: (inBound: T[], outBound: T[]) => void,
   transferCountInc: Function,
   transferCountDec: Function,
+  transferCountReset: Function,
 };
 
 interface MemberById<T> {
@@ -17,7 +18,6 @@ enum Pane {
   Right,
 };
 
-//TODO: Make sure to prevent transfer if too many members
 function TransferMenu<T>(props: TransferMenuProps<T>) {
   const [ inbound, setInbound ] = useState<MemberById<T>>({});
   const [ outbound, setOutbound ] = useState<MemberById<T>>({});
@@ -25,15 +25,11 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
   useEffect(() => {
     setOutbound({});
     setInbound(processInbound());
+    props.transferCountReset();
   }, [props.available]);
 
   function processInbound() {
-    let obj: MemberById<T> = {};
-    for (let i = 0; i < props.available.length; ++i) {
-      obj[i] = props.available[0];
-    }
-
-    return obj;
+    return { ...props.available };
   }
 
   function moveToPane(id: any, pane: Pane) {
@@ -67,7 +63,6 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
       default:
         throw Error(`Unknown Pane enum value: ${pane}`);
     }
-
   }
 
   function commitTransfer() {
