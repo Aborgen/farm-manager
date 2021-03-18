@@ -38,21 +38,19 @@ function EstablishmentWrapper(Component: React.ComponentType<any>) {
 //        assignFarmhand(entities);
 //    }
 
-    function assignFarmhand(farmhands: Farmhand[]) {
-      if (!canAcceptNFarmhands(farmhands.length)) {
-        throw Error(`Cannot exceed farmhand capacity: tried to assign ${farmhands.length} while at ${farmhandCount}`)
+    function assignFarmhand(farmhandArray: Farmhand[]) {
+      if (!canAcceptNFarmhands(farmhandArray.length)) {
+        throw Error(`Cannot exceed farmhand capacity: tried to assign ${farmhandArray.length} while at ${farmhandCount}`)
       }
 
-      let nextFarmhands: FarmhandByIdentifier = {};
-      let i = 0;
-      for (const farmhand of farmhands) {
+      const nextFarmhands = farmhandArray.reduce<FarmhandByIdentifier>((accumulator, farmhand) => {
+        accumulator[farmhand.id] = farmhand;
         farmhand.assignment = ref as EstablishmentT;
-        nextFarmhands[farmhand.id] = farmhand;
-        ++i;
-      }
+        return accumulator;
+      }, {});
 
       setFarmhands({ ...farmhands, ...nextFarmhands });
-      setFarmhandCount(farmhandCount + i);
+      setFarmhandCount(farmhandCount + farmhandArray.length);
     }
 
     function dismiss(id: number) {
