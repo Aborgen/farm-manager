@@ -6,8 +6,9 @@ interface TabMember<T> {
 interface TabListProps<T> {
   members: TabMember<T>[],
   selected: T,
-  handleClick: Function,
+  setSelected: (identifier: T) => void,
 };
+
 function TabList(props: TabListProps<any>) {
   return (
     <div className="tab-list">
@@ -15,7 +16,7 @@ function TabList(props: TabListProps<any>) {
         props.members.map((member, key) => (
           <button key={ key } className={ `tab${ member.identifier === props.selected ? " selected-button" : "" }` }
             disabled={ member.identifier === props.selected }
-            onClick={ () => props.handleClick(member.identifier) }>{ member.name }</button>
+            onClick={ () => props.setSelected(member.identifier) }>{ member.name }</button>
         ))
       }
     </div>

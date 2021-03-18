@@ -41,7 +41,7 @@ function Shop() {
 
     return (
       <>
-        <TabList members={ members } selected={ currentSection } handleClick={ openSection } />
+        <TabList members={ members } selected={ currentSection } setSelected={ openSection } />
         { node }
       </>
     );
