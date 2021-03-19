@@ -77,7 +77,10 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
         {
           Object.entries(inbound).map(([id, member]) => (
             <div key={ id } className="transfer-display"
-              onClick={ () => moveToPane(id, Pane.Right) }>
+              onClick={ () => moveToPane(id, Pane.Right) }
+              onKeyUp={ (e) => {
+                if (e.keyCode === 13) { moveToPane(id, Pane.Right) }
+              }}>
               <DisplayComponent { ...member } />
             </div>
           ))
@@ -88,7 +91,10 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
         {
           Object.entries(outbound).map(([id, member]) => (
             <div key={ id } className="transfer-display"
-              onClick={ () => moveToPane(id, Pane.Left) }>
+              onClick={ () => moveToPane(id, Pane.Left) }
+              onKeyUp={ (e) => {
+                if (e.keyCode === 13) { moveToPane(id, Pane.Left) }
+              }}>
               <DisplayComponent { ...member } />
             </div>
           ))
