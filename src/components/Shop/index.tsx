@@ -51,7 +51,9 @@ function Shop() {
     <div className="shop">
       { renderShopSection() }
       <button
-        onClick={ () => currentSection === null ? setCurrentSection(ShopSection.Seeds) : setCurrentSection(null) }>
+        onClick={ () => currentSection === null ? setCurrentSection(ShopSection.Seeds) : setCurrentSection(null) }
+        aria-pressed={ currentSection !== null }
+        aria-live="polite">
         { currentSection === null ? "Enter shop" : "Exit shop" }
       </button>
     </div>
