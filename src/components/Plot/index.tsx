@@ -142,6 +142,7 @@ class PlotClass extends React.Component<PlotProps & EstablishmentProps, any> {
     return (
       <section className={`plot${this.props.isFocused ? " focused" : ""}`}
         onClick={ (e) => this.props.handleClick(e) }>
+        <h4>Name: { this.props.name }</h4>
         { this.props.isFocused && <PlowDialogue plowRow={ this.plowRow.bind(this) } /> }
         <span className="counter">{ `${this.state.plowedRows}/${this.state.rows.length}` }</span>
         {
