@@ -20,7 +20,7 @@ class RowClass extends React.Component<RowProps & FocusableProps> {
 
   render() {
     return (
-      <div className={ `${this.props.crop}-${this.props.stage}-row` }
+      <div className={ `${this.props.crop}-${this.props.stage}-row row` }
         onClick={ (e) => this.props.handleClick(e) }>
         <span className={ `${this.props.crop}${ this.props.isFocused ? " focused" : ""}` }>
           { this.props.crop }, stage {this.props.stage}
