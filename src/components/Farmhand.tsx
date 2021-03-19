@@ -12,7 +12,7 @@ function specialtyToClass(specialty: Specialty) {
 
 function Farmhand(props: FarmhandT) {
   return (
-    <div className={ "farmhand" + specialtyToClass(props.specialty) }>
+    <div className={ "farmhand" + specialtyToClass(props.specialty) } tabIndex={ 0 }>
       <img className="svg-image" src="/farmhand.svg" />
     </div>
   );
