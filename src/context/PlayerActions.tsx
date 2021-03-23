@@ -45,7 +45,6 @@ function reducer(state: PlayerState, action: ActionType) {
 
 type PlayerActionsContextStore = {
   state: PlayerState,
-  dispatch: Function,
   setFocus: Function,
   clearFocus: Function,
 };
@@ -54,7 +53,6 @@ function PlayerActionsProvider(props: { children: React.ReactElement }) {
   const [ state, dispatch ] = useReducer(reducer, defaultPlayerState);
   const contextStore = {
     state,
-    dispatch,
     setFocus: (element: React.RefObject<React.ReactElement>) => dispatch({ type: Actions.SetFocus, target: element }),
     clearFocus: () => dispatch({ type: Actions.ClearFocus }),
   };
