@@ -70,7 +70,7 @@ function TheUI() {
           { farmhands.state.unassigned.length > 0 && <li>unassigned: { farmhands.state.unassigned.length }</li> }
         </ol>
         <div className="ui-menus">
-          <div className="menu-container menu-assignment">
+          <div className="menu-container">
             { renderMenu() }
           </div>
         </div>
