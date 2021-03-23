@@ -14,9 +14,10 @@ function JobBoard() {
     <section className="shop-job-board">
       <h3>Job wanted</h3>
       <button
+        aria-live="polite"
         disabled={ farmhands.atCapacity() }
         onClick={ () => hire() }>
-        hire farmhand
+        { farmhands.atCapacity() ? "no vacancy" : "hire farmhand" }
       </button>
     </section>
   );
