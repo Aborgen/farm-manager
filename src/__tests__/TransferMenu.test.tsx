@@ -12,12 +12,14 @@ function TestContainer(props: TestProps) {
 
 const inc = jest.fn();
 const dec = jest.fn();
+const reset = jest.fn();
 const props: TransferMenuProps<TestProps> = {
   DisplayComponent: TestContainer,
   available: [{id: 0}],
   commitTransfer: jest.fn(),
   transferCountInc: inc,
   transferCountDec: dec,
+  transferCountReset: reset,
 };
 
 describe("Tests for TransferMenu component", () => {
