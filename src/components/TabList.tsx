@@ -16,6 +16,9 @@ function TabList<T>(props: TabListProps<T>) {
     if (props.tabsAreToggleButtons && props.selected === identifier) {
       props.setSelected(null);
     }
+    else if (!props.tabsAreToggleButtons && props.selected === identifier) {
+      return;
+    }
     else {
       props.setSelected(identifier);
     }
@@ -27,8 +30,10 @@ function TabList<T>(props: TabListProps<T>) {
         props.members.map((member, key) => (
           <button key={ key } className={ `tab${ member.identifier === props.selected ? " selected-button" : "" }` }
             onClick={ () => handleClick(member.identifier) }
-            tabIndex={ props.selected === null ? -1 : 0 }
-            aria-selected={ member.identifier === props.selected }
+            // Regular buttons get disabled if they are the currently selected button, so make them untabbable.
+            tabIndex={ !props.tabsAreToggleButtons && member.identifier === props.selected ? -1 : 0 }
+            aria-pressed={ member.identifier === props.selected }
+            // Toggle buttons are not disabled, otherwise it wouldn't be possible to toggle them back off.
             disabled={ !props.tabsAreToggleButtons && member.identifier === props.selected }>
           { member.name }
           </button>
