@@ -17,9 +17,13 @@ function SeedStall() {
       {
         Object.entries(Crop).map(([k, v], key) => (
           <div key={ key } className="shop-item">
-            { k } seeds
+            <label htmlFor={ `buy-${v}` }>
+              { k } seeds
+            </label>
             <button
+              aria-live="polite"
               disabled={ seeds.atCapacity(v) }
+              id={ `buy-${v}` }
               onClick={ () => buySeed(v) }>
               { seeds.atCapacity(v) ? "at capacity" : "buy" }
             </button>
