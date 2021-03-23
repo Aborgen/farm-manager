@@ -35,7 +35,7 @@ function AssignmentPanel() {
   }
 
   return (
-    <div>
+    <div className="assignment-panel">
       <TransferMenu
         available={ farmhands.state.unassigned }
         DisplayComponent={ Farmhand }
@@ -43,8 +43,13 @@ function AssignmentPanel() {
         transferCountInc={ () => setTransferCount(transferCount + 1) }
         transferCountDec={ () => setTransferCount(transferCount - 1) }
         transferCountReset={ () => setTransferCount(0) } />
-      <select size={ Math.min(establishments.get().length + 1, 7) } value={ currentOption === null ? "-1" : currentOption } onChange={ (e) => setCurrentOption(e.target.value) }>
-      <option value="-1"></option>
+      <label htmlFor="assignment-select">Assign farmhands to establishment</label>
+      <select
+        id="assignment-select"
+        onChange={ (e) => setCurrentOption(e.target.value) }
+        size={ Math.min(establishments.get().length + 1, 7) }
+        value={ currentOption === null ? "-1" : currentOption }>
+        <option value="-1"></option>
       {
         establishments.get().map((establishment: Establishment, i: number) => {
           if (establishment.current === null) {
@@ -53,8 +58,9 @@ function AssignmentPanel() {
 
           return (
             <option key={ i }
-              value={ i }
               onClick={ () => setCurrentEstablishment(establishment) }
+              value={ i }
+              title={ `${establishment.current.props.farmhandCount } out of ${establishment.current.props.farmhandCapacity} farmhands` }
               disabled={ establishment.current.props.atFarmhandCapacity() || !establishment.current.props.canAcceptNFarmhands(transferCount) }>
               { establishment.current.props.name } { establishment.current.props.farmhandCount }/{ establishment.current.props.farmhandCapacity }
             </option>
