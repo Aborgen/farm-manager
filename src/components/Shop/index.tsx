@@ -22,7 +22,7 @@ const members: TabMember<ShopSection>[] = [
 
 function Shop() {
   const [ currentSection, setCurrentSection ] = useState<ShopSection | null>(null);
-  function openSection(section: ShopSection) {
+  function openSection(section: ShopSection | null) {
     setCurrentSection(section);
   }
 
@@ -41,7 +41,7 @@ function Shop() {
 
     return (
       <>
-        <TabList members={ members } selected={ currentSection } setSelected={ openSection } />
+        <TabList members={ members } selected={ currentSection } setSelected={ openSection } tabsAreToggleButtons={ false } />
         { node }
       </>
     );
