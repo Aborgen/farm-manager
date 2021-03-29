@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import Plot, { PlotProps, PlotGrade } from 'components/Plot';
+import styles from './Field.module.css';
 
 
 const defaultProps: PlotProps[] = [
@@ -17,10 +18,9 @@ const defaultProps: PlotProps[] = [
 ];
 
 export default function Field() {
-  //@ts-ignore
-  const [ plots, setPlots ] = useState(defaultProps);
+  const plots = useState(defaultProps)[0];
   return (
-    <div className="field">
+    <div className={ styles.field }>
       {
         plots.map((plot, key) => (
           <Plot key={ key } { ...plot } />
