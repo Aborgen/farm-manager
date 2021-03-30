@@ -1,0 +1,17 @@
+.text-with-border--large {
+  color: var(--cream);
+  text-shadow: 0 0 0.08em black;
+  font-weight: bold;
+}
+
+.text-with-border--small {
+  color: var(--cream);
+  text-shadow: 0 0 0.15em black;
+  font-weight: bold;
+}
+
+.plain-black-text {
+  color: black;
+  text-shadow: none;
+  font-weight: normal;
+}
