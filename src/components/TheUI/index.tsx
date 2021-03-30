@@ -41,7 +41,12 @@ function TheUI() {
 
     return (
       <>
-        <TabList members={ members } selected={ currentMenu } setSelected={ openMenu } tabsAreToggleButtons={ true } />
+        <TabList
+          members={ members }
+          selected={ currentMenu }
+          setSelected={ openMenu }
+          tabsAreToggleButtons={ true }
+          style={ {buttonDefault: `${styles["menu-button"]} text-with-border--large`, buttonSelected: styles["menu-button--selected"]} } />
         { node }
       </>
     );

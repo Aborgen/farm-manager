@@ -1,3 +1,5 @@
+import styles from './TabList.module.css';
+
 interface TabMember<T> {
   identifier: T,
   name: string,
@@ -8,6 +10,7 @@ interface TabListProps<T> {
   selected: T | null,
   setSelected: (identifier: T | null) => void,
   tabsAreToggleButtons: boolean,
+  style: { buttonDefault: string, buttonSelected: string },
 };
 
 // When tabsAreToggleButtons prop is true, clicking on an already selected tab causes the selected tab to be set to null in parent.
@@ -25,10 +28,10 @@ function TabList<T>(props: TabListProps<T>) {
   }
 
   return (
-    <div className="tab-list">
+    <div className={ styles["tab-list"] }>
       {
         props.members.map((member, key) => (
-          <button key={ key } className={ `tab${ member.identifier === props.selected ? " selected-button" : "" }` }
+          <button key={ key } className={ `${props.style.buttonDefault} ${styles.tab} ${ member.identifier === props.selected ? props.style.buttonSelected : "" }` }
             onClick={ () => handleClick(member.identifier) }
             // Regular buttons get disabled if they are the currently selected button, so make them untabbable.
             tabIndex={ !props.tabsAreToggleButtons && member.identifier === props.selected ? -1 : 0 }

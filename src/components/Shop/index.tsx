@@ -41,7 +41,12 @@ function Shop() {
 
     return (
       <>
-        <TabList members={ members } selected={ currentSection } setSelected={ openSection } tabsAreToggleButtons={ false } />
+        <TabList
+          members={ members }
+          selected={ currentSection }
+          setSelected={ openSection }
+          tabsAreToggleButtons={ false }
+          style={ {buttonDefault: "TEMP", buttonSelected: "TEMPSELECTED"} } />
         { node }
       </>
     );
