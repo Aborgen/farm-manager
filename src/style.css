@@ -1,11 +1,23 @@
-.text-with-border--large {
+.cream_text-with-border--large {
   color: var(--cream);
   text-shadow: 0 0 0.08em black;
   font-weight: bold;
 }
 
-.text-with-border--small {
+.cream_text-with-border--small {
   color: var(--cream);
+  text-shadow: 0 0 0.15em black;
+  font-weight: bold;
+}
+
+.white_text-with-border--large {
+  color: var(--white);
+  text-shadow: 0 0 0.08em black;
+  font-weight: bold;
+}
+
+.white_text-with-border--small {
+  color: var(--white);
   text-shadow: 0 0 0.15em black;
   font-weight: bold;
 }

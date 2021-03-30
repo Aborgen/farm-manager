@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 import Shop from 'components/Shop';
-import { useFarmSupplyContext } from 'context/FarmSupply';
 import { usePlayerActionsContext } from 'context/PlayerActions';
 import TabList, { TabMember } from 'components/TabList';
 import AssignmentPanel from './internal/AssignmentPanel';
+import SeedList from './internal/SeedList';
 import styles from './TheUI.module.css';
 
 enum Menu {
@@ -24,7 +24,6 @@ const members: TabMember<Menu>[] = [
 ];
 
 function TheUI() {
-  const { seeds } = useFarmSupplyContext();
   const playerContext = usePlayerActionsContext();
   const [ currentMenu, setCurrentMenu ] = useState<Menu | null>(null);
   function clearFocus() {
@@ -66,21 +65,7 @@ function TheUI() {
         <div className={ styles["menu-container"] }>
           { renderMenu() }
         </div>
-        <section className={ styles["seed-supply-container"] }>
-          <h5 className={ `${styles["seed-supply-heading"]} text-with-border--large`}>Seeds</h5>
-          <ol className={ styles["seed-supply"] }>
-            {
-              Object.entries(seeds.state).map(([crop, info], key) => (
-              <li className={ `${styles["seed-row"]} text-with-border--small` } key={ key }>
-                { crop }
-                <span className="plain-black-text">
-                  { `${info.count}/${info.max}` }
-                </span>
-              </li>
-              ))
-            }
-          </ol>
-        </section>
+        <SeedList />
         { playerContext.state.focus && <button onClick={ () => clearFocus() }>clear focus</button> }
       </div>
   );
