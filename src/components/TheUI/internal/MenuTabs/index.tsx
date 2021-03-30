@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import Shop from 'components/Shop';
 import TabList, { TabMember } from 'components/TabList';
+import Shop from './internal/Shop';
 import AssignmentPanel from './internal/AssignmentPanel';
 import styles from './MenuTabs.module.css';
 

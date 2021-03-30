@@ -2,7 +2,7 @@ import { render, screen, within } from '@testing-library/react';
 
 import { FarmSupplyProvider, useFarmSupplyContext } from 'context/FarmSupply';
 import { Crop } from 'types/Crops';
-import Shop from 'components/Shop';
+import Shop from 'components/TheUI/internal/MenuTabs/internal/Shop';
 
 function CountComponent(props) {
   const { seeds, farmhands } = useFarmSupplyContext();

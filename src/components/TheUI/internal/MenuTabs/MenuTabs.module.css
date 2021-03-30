@@ -21,6 +21,7 @@
   background: var(--orange);
   width: 40em;
   height: 20em;
+  border: 0.4em solid black;
   position: relative;
   left: 3em;
 }
