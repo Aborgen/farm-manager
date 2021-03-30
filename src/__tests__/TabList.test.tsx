@@ -17,7 +17,8 @@ describe("Tests for the TabList component", () => {
     render(
       <TabList { ...props }
         selected={ null }
-        tabsAreToggleButtons={ false } />
+        tabsAreToggleButtons={ false }
+        style={{}} />
     );
 
     screen.getByRole("button", { name: "one" }).click();
@@ -28,7 +29,8 @@ describe("Tests for the TabList component", () => {
     render(
       <TabList { ...props }
         selected={ 2 }
-        tabsAreToggleButtons={ false } />
+        tabsAreToggleButtons={ false }
+        style={{}} />
     );
 
     screen.getByRole("button", { name: "two" }).click();
@@ -39,7 +41,8 @@ describe("Tests for the TabList component", () => {
     render(
       <TabList { ...props }
         selected={ 0 }
-        tabsAreToggleButtons={ true } />
+        tabsAreToggleButtons={ true }
+        style={{}} />
     );
 
     screen.getByRole("button", { name: "zero" }).click();
