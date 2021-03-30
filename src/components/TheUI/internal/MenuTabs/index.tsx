@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
 import TabList, { TabMember } from 'components/TabList';
-import Shop from './internal/Shop';
 import AssignmentPanel from './internal/AssignmentPanel';
+import OpenedMenu from './internal/OpenedMenu';
+import Shop from './internal/Shop';
 import styles from './MenuTabs.module.css';
 
 enum Menu {
@@ -28,43 +29,39 @@ function MenuTabs() {
     setCurrentMenu(menu);
   }
 
-  function renderMenu() {
-    let node;
-    let style;
+  function getCurrentStyle() {
     switch (currentMenu) {
       case Menu.Assignment:
-        node = <AssignmentPanel />;
-        style = styles.assignment;
-        break;
+        return styles.assignment;
       case Menu.Shop:
-        node = <Shop />;
-        style = styles.shop;
-        break;
+        return styles.shop;
       default:
-        node = null;
+        return "";
     }
+  }
 
-    return (
-      <>
-        <TabList
-          members={ members }
-          selected={ currentMenu }
-          setSelected={ openMenu }
-          tabsAreToggleButtons={ true }
-          style={ {buttonDefault: `${styles["menu-button"]} cream_text-with-border--large`, buttonSelected: styles["menu-button--selected"]} } />
-        {
-          node !== null &&
-          <div className={ `${styles["menu-container"]} ${style}` }>
-            { node }
-          </div>
-        }
-      </>
-    );
+  function getCurrentMenu() {
+    switch (currentMenu) {
+      case Menu.Assignment:
+        return <AssignmentPanel />;
+      case Menu.Shop:
+        return <Shop />;
+      default:
+        return null;
+    }
   }
 
   return (
     <div className={ styles["menu-tabs"] }>
-      { renderMenu() }
+      <TabList
+        members={ members }
+        selected={ currentMenu }
+        setSelected={ openMenu }
+        tabsAreToggleButtons={ true }
+        style={ {buttonDefault: `${styles["menu-button"]} cream_text-with-border--large`, buttonSelected: "button--selected"} } />
+      <OpenedMenu
+        style={ getCurrentStyle() }
+        menu={ getCurrentMenu() } />
     </div>
   );
 }

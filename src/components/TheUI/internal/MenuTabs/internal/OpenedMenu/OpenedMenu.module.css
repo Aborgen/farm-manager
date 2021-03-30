@@ -1,0 +1,26 @@
+.menu-container {
+  background: var(--orange);
+  width: 40em;
+  height: 20em;
+  display: flex;
+  flex-flow: row nowrap;
+  border: 0.4em solid black;
+  position: relative;
+  left: 3em;
+}
+
+.menu-content {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.spacer-before {
+  flex-basis: 10%;
+}
+
+.spacer-after {
+  flex-basis: 30%;
+}

@@ -9,25 +9,11 @@
   height: 2em;
   border: 0.2rem solid black;
   font-size: 2em;
-  letter-spacing: 0.03;
-}
-
-.menu-button--selected {
-  background: var(--grey);
-  color: var(--off-cream) !important;
-}
-
-.menu-container {
-  background: var(--orange);
-  width: 40em;
-  height: 20em;
-  border: 0.4em solid black;
-  position: relative;
-  left: 3em;
+  letter-spacing: 0.03em;
 }
 
 .assignment {
-  bottom: 6.7em;
+  bottom: 5.6em;
 }
 
 .shop {
