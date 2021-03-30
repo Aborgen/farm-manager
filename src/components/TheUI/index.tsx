@@ -5,20 +5,26 @@ import { useFarmSupplyContext } from 'context/FarmSupply';
 import { usePlayerActionsContext } from 'context/PlayerActions';
 import TabList, { TabMember } from 'components/TabList';
 import AssignmentPanel from './internal/AssignmentPanel';
+import styles from './TheUI.module.css';
 
 enum Menu {
   Assignment,
+  Shop,
 };
 
 const members: TabMember<Menu>[] = [
   {
     identifier: Menu.Assignment,
-    name: "Assign Farmhands",
+    name: "Assign",
+  },
+  {
+    identifier: Menu.Shop,
+    name: "Shop",
   },
 ];
 
 function TheUI() {
-  const { seeds, farmhands } = useFarmSupplyContext();
+  const { seeds } = useFarmSupplyContext();
   const playerContext = usePlayerActionsContext();
   const [ currentMenu, setCurrentMenu ] = useState<Menu | null>(null);
   function clearFocus() {
@@ -34,6 +40,9 @@ function TheUI() {
     switch (currentMenu) {
       case Menu.Assignment:
         node = <AssignmentPanel />
+        break;
+      case Menu.Shop:
+        node = <Shop />
         break;
       default:
         node = null;
@@ -53,32 +62,25 @@ function TheUI() {
   }
 
   return (
-      <div className="ui">
-        <Shop />
-        <ol className="ui-seed-supply">
-          {
-            Object.entries(seeds.state).map(([crop, info], key) => (
-            <li key={ key }>
-              { `${crop} seeds: ${info.count}/${info.max}` }
-            </li>
-            ))
-          }
-        </ol>
-        <ol className="ui-farmhands">
-          {
-            Object.entries(farmhands.state.demographics).map(([category, info], key) => (
-              <li key={ key }>
-                { `${category}s: ${info.count}` }
-              </li>
-            ))
-          }
-          { farmhands.state.unassigned.length > 0 && <li>unassigned: { farmhands.state.unassigned.length }</li> }
-        </ol>
-        <div className="ui-menus">
-          <div className="menu-container">
-            { renderMenu() }
-          </div>
+      <div className={ styles.ui }>
+        <div className={ styles["menu-container"] }>
+          { renderMenu() }
         </div>
+        <section className={ styles["seed-supply-container"] }>
+          <h5 className={ `${styles["seed-supply-heading"]} text-with-border--large`}>Seeds</h5>
+          <ol className={ styles["seed-supply"] }>
+            {
+              Object.entries(seeds.state).map(([crop, info], key) => (
+              <li className={ `${styles["seed-row"]} text-with-border--small` } key={ key }>
+                { crop }
+                <span className="plain-black-text">
+                  { `${info.count}/${info.max}` }
+                </span>
+              </li>
+              ))
+            }
+          </ol>
+        </section>
         { playerContext.state.focus && <button onClick={ () => clearFocus() }>clear focus</button> }
       </div>
   );
