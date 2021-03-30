@@ -22,7 +22,13 @@
   font-weight: bold;
 }
 
-.plain-black-text {
+.black_bold-text {
+  color: black;
+  text-shadow: none;
+  font-weight: bold;
+}
+
+.black_plain-text {
   color: black;
   text-shadow: none;
   font-weight: normal;

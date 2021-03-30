@@ -11,7 +11,7 @@ function SeedList() {
           Object.entries(seeds.state).map(([crop, info], key) => (
           <li className={ `${styles["seed-row"]} white_text-with-border--small` } key={ key }>
             { crop }
-            <span className="plain-black-text">
+            <span className="black_plain-text">
               { `${info.count}/${info.max}` }
             </span>
           </li>
