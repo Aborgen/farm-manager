@@ -3,6 +3,7 @@ import { useState } from 'react';
 import TabList, { TabMember } from 'components/TabList';
 import SeedStall from './internal/SeedStall';
 import JobBoard from './internal/JobBoard';
+import styles from './Shop.module.css';
 
 enum ShopSection {
   Seeds,
@@ -12,7 +13,7 @@ enum ShopSection {
 const members: TabMember<ShopSection>[] = [
   {
     identifier: ShopSection.Seeds,
-    name: "Seeds",
+    name: "Seed Stall",
   },
   {
     identifier: ShopSection.JobBoard,
@@ -21,7 +22,7 @@ const members: TabMember<ShopSection>[] = [
 ];
 
 function Shop() {
-  const [ currentSection, setCurrentSection ] = useState<ShopSection | null>(null);
+  const [ currentSection, setCurrentSection ] = useState<ShopSection | null>(ShopSection.Seeds);
   function openSection(section: ShopSection | null) {
     setCurrentSection(section);
   }
@@ -36,31 +37,29 @@ function Shop() {
         node = <JobBoard />;
         break;
       default:
-        return null;
+        throw Error(`Tried to open an unknown section of the Shop [${currentSection}]`);
     }
 
     return (
       <>
-        <TabList
-          members={ members }
-          selected={ currentSection }
-          setSelected={ openSection }
-          tabsAreToggleButtons={ false }
-          style={ {buttonDefault: "TEMP", buttonSelected: "TEMPSELECTED"} } />
-        { node }
+        <div className={ styles["shop-tab-container"] }>
+          <TabList
+            members={ members }
+            selected={ currentSection }
+            setSelected={ openSection }
+            tabsAreToggleButtons={ false }
+            style={ {buttonDefault: `${styles["shop-tab"]} black_bold-text`, buttonSelected: "button--selected"} } />
+        </div>
+        <div className={ styles["shop-container"] }>
+          { node }
+        </div>
       </>
     );
   }
 
   return (
-    <div className="shop">
+    <div className={ styles.shop }>
       { renderShopSection() }
-      <button
-        onClick={ () => currentSection === null ? setCurrentSection(ShopSection.Seeds) : setCurrentSection(null) }
-        aria-pressed={ currentSection !== null }
-        aria-live="polite">
-        { currentSection === null ? "Enter shop" : "Exit shop" }
-      </button>
     </div>
   );
 }

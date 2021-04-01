@@ -1,0 +1,25 @@
+.shop {
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.shop-container {
+  background: var(--opal-green);
+  width: 25em;
+  height: 15em;
+  border: 0.2em solid black;
+}
+
+.shop-tab-container {
+  width: 90%;
+}
+
+.shop-tab {
+  background: var(--cream);
+  height: 1.8em;
+  font-size: 2em;
+  border-radius: 5px;
+}

@@ -33,3 +33,10 @@
   text-shadow: none;
   font-weight: normal;
 }
+
+.button--selected {
+  background: var(--grey) !important;
+  color: var(--off-cream) !important;
+  text-shadow: 0 0 0.15em black !important;
+  font-weight: bold !important;
+}
