@@ -1,0 +1,30 @@
+.display-container {
+  background: var(--cream);
+  width: 95%;
+  position: relative;
+  border: 4px solid black;
+  box-sizing: border-box;
+  padding-bottom: 0.5em;
+}
+
+.display {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+  overflow: scroll;
+  width: 100%;
+  height: 100%;
+}
+
+.scroll-bar-decoration {
+  background: linear-gradient(to bottom, #988b794f, #3e3a39 40%);
+  color: var(--cream);
+  width: 100%;
+  height: 1.4em;
+  position: absolute;
+  bottom: 0;
+  border-radius: 20px 20px 0 0;
+  letter-spacing: 1em;
+  text-align: center;
+}
