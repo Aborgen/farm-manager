@@ -3,9 +3,9 @@ import { useReducer } from 'react';
 import { Crop, SeedStorage } from 'types/Crops';
 
 const defaultSeeds: SeedStorage = {
-  [Crop.Carrot]: { count: 5, max: 20 },
-  [Crop.Corn]:   { count: 5, max: 20 },
-  [Crop.Celery]: { count: 5, max: 20 },
+  [Crop.Carrot]: { count: 5, max: 20, price: 100, },
+  [Crop.Corn]:   { count: 5, max: 20, price: 65, },
+  [Crop.Celery]: { count: 5, max: 20, price: 50, },
 };
 
 enum SeedsActions {
@@ -95,6 +95,7 @@ type SeedsContextStore = {
   incSeeds: Function,
   hasSeeds: Function,
   atCapacity: Function,
+  priceCheck: Function,
 };
 
 function useSeeds() {
@@ -110,6 +111,7 @@ function useSeeds() {
     incSeeds: (crop: Crop) => dispatch({ type: SeedsActions.Inc, crop }),
     hasSeeds: (crop: Crop) => state[crop].count > 0,
     atCapacity: (crop: Crop) => state[crop].count === state[crop].max,
+    priceCheck: (crop: Crop) => state[crop].price,
   };
 
   return contextStore;

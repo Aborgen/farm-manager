@@ -10,7 +10,7 @@ enum Crop {
   Celery = "celery",
 };
 
-type Storage<T extends keyof any> = Record<T, { max: number, count: number }>;
+type Storage<T extends keyof any> = Record<T, { max: number, count: number, price: number, }>;
 type SeedStorage = Storage<Crop>;
 
 export type { Storage, SeedStorage };
