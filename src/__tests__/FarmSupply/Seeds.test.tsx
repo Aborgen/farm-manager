@@ -59,6 +59,33 @@ describe("Tests for the seeds section of FarmSupply", () => {
     expect(f).toThrow(/tried to decrement/i);
   });
 
+  test("buySeeds results in an incremented count for specific seed type", () => {
+    const count = seeds.current.getSeeds(Crop.Carrot);
+    act(() => {
+      seeds.current.setMax(Crop.Carrot, 50);
+      seeds.current.buySeeds({[Crop.Carrot]: { quantity: 20}});
+    });
+
+    expect(seeds.current.getSeeds(Crop.Carrot)).toEqual(count + 20);
+  });
+
+  test("buySeeds throws an error if quantity of seeds added to existing count would exceed the maximum", () => {
+    act(() => {
+      seeds.current.setMax(Crop.Carrot, 10);
+    });
+
+    act(() => {
+      seeds.current.buySeeds({[Crop.Carrot]: { quantity: 4}});
+    });
+
+    const f = () => act(() => {
+      seeds.current.buySeeds({[Crop.Carrot]: { quantity: 7}});
+    });
+
+    f();
+    expect(f).toThrow(/tried to buy/i);
+  });
+
   test("setSeeds sets the count of a particular seed", () => {
     act(() => {
       seeds.current.setSeeds(Crop.Carrot, 5);
