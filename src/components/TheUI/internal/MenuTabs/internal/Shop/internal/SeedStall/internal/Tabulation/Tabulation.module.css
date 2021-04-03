@@ -1,0 +1,30 @@
+.tabulation {
+  background: var(--white);
+  width: 13em;
+  position: absolute;
+  top: 0;
+  left: -2em;
+  padding: 0 1em 6em 1em;
+}
+
+.grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 33% 1fr 33%;
+  justify-items: center;
+  align-items: center;
+  grid-row-gap: 0.3em;
+}
+
+.grid-crop {
+  justify-self: left;
+}
+
+.grid-number::before {
+  content: "(";
+}
+
+.grid-number::after {
+  content: ")";
+}
+
