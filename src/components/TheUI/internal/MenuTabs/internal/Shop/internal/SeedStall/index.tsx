@@ -31,7 +31,6 @@ function SeedStall() {
   const [ shoppingCart, setShoppingCart ] = useState<Cart>(defaultCart);
   const [ inputValues, setInputValues ] = useState<InputType>(defaultInputValues);
   const [ grandTotal, setGrandTotal ] = useState(0);
-  const [ preventKeyUp, setPreventKeyUp ] = useState(false);
 
   function buySeeds() {
     seeds.buySeeds(shoppingCart);
@@ -40,9 +39,8 @@ function SeedStall() {
     setGrandTotal(0);
   }
 
-  function updateCart(e: React.KeyboardEvent | React.ChangeEvent, crop: Crop) {
-    if (preventKeyUp) {
-      setPreventKeyUp(false);
+  function updateCart(e: React.ChangeEvent<HTMLInputElement>, crop: Crop) {
+    if (seeds.atCapacity(crop)) {
       return;
     }
 
@@ -110,18 +108,21 @@ function SeedStall() {
                 <label className={ styles["seed-count_label"] } htmlFor={ `buy-${crop}` }>count</label>
                 <input className={ styles["seed-count"] }
                   onChange={ (e) => updateCart(e, crop) }
+                  // Since input is of type number, onChange events do not fire if non-numerical text is input.
                   onBeforeInput={ (e) => {
                     // Data property definitely exists on onBeforeInput events. Not sure what to do about this.
                     //@ts-ignore
                     // Use parseInt, because it ignores whitespace.
                     if(Number.isNaN(Number.parseInt(e.data))) {
                       e.preventDefault();
-                      setPreventKeyUp(true);
                     }
                   }}
-                  onKeyUp={ (e) => updateCart(e, crop) }
                   onClick={ (e) => e.currentTarget.select() }
                   onBlur={ (e) => {
+                    if (seeds.atCapacity(crop)) {
+                      return;
+                    }
+
                     if (e.target.value === "") {
                       setInputValues({ ...inputValues, [crop]: String(shoppingCart[crop].quantity) });
                     }
