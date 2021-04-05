@@ -9,7 +9,7 @@ import styles from './SeedStall.module.css';
 
 const defaultCart = Object
   .values(Crop)
-  .reduce((accumulator: Cart, crop) => {
+  .reduce((accumulator, crop) => {
     accumulator[crop] = {
       quantity: 0,
       total: 0,
@@ -18,15 +18,25 @@ const defaultCart = Object
     return accumulator;
   }, {} as Cart);
 
+type InputType = Record<Crop, number | "">;
+const defaultInputValues = Object
+  .values(Crop)
+  .reduce((accumulator, crop) => {
+    accumulator[crop] = "";
+    return accumulator;
+  }, {} as InputType);
+
 function SeedStall() {
   const { seeds } = useFarmSupplyContext();
   const [ shoppingCart, setShoppingCart ] = useState<Cart>(defaultCart);
+  const [ inputValues, setInputValues ] = useState<InputType>(defaultInputValues);
   const [ grandTotal, setGrandTotal ] = useState(0);
   const [ preventKeyUp, setPreventKeyUp ] = useState(false);
 
   function buySeeds() {
     seeds.buySeeds(shoppingCart);
     setShoppingCart(defaultCart);
+    setInputValues(defaultInputValues);
     setGrandTotal(0);
   }
 
@@ -36,40 +46,56 @@ function SeedStall() {
       return;
     }
 
-    const input = e.target as HTMLInputElement;
-    if (input.value === "") {
-      setPreventKeyUp(true);
+    const input = e.target;
+    // Allow user to delete input. Necessary, as the inputs are managed through state.
+    if (Number.isNaN(input.valueAsNumber)) {
+      setInputValues({ ...inputValues, [crop]: "" });
       return;
     }
 
-    validateInput(input, crop);
-    if (input.valueAsNumber === shoppingCart[crop].quantity) {
+    const value = validateInput(input, crop);
+    if (value === shoppingCart[crop].quantity) {
       return;
     }
 
-    const delta = input.valueAsNumber - shoppingCart[crop].quantity;
-    const nextTotal = delta * seeds.priceCheck(crop);
+    setNextCart(crop, value);
+  }
+
+  function setNextCart(crop: Crop, n: number) {
+    if (seeds.atCapacity(crop)) {
+      return;
+    }
+
+    const count = n - shoppingCart[crop].quantity;
+    const nextTotal = count * seeds.priceCheck(crop);
+    const nextQuantity = shoppingCart[crop].quantity + count;
+    setInputValues({ ...inputValues, [crop]: nextQuantity });
     setGrandTotal(grandTotal + nextTotal);
     setShoppingCart({
       ...shoppingCart,
       [crop]: {
-        quantity: shoppingCart[crop].quantity + delta,
-        total: shoppingCart[crop].total + nextTotal,
+        quantity: nextQuantity,
+        total: shoppingCart[crop].total + nextTotal
       }
     });
   }
 
   function validateInput(input: HTMLInputElement, crop: Crop) {
+    // Set min and max, in case they were changed by user.
     input.min = "0";
     input.max = String(seeds.getAvailableSpace(crop));
-    if (!input.validity.valid) {
-      if (input.validity.rangeUnderflow) {
-        input.value = input.min;
-      }
-      else if (input.validity.rangeOverflow) {
-        input.value = input.max;
-      }
+    let value;
+    if (input.validity.rangeUnderflow) {
+      value = Number(input.min);
     }
+    else if (input.validity.rangeOverflow) {
+      value = Number(input.max);
+    }
+    else {
+      value = input.valueAsNumber;
+    }
+
+    return value;
   }
 
   return (
@@ -97,10 +123,10 @@ function SeedStall() {
                   onClick={ (e) => e.currentTarget.select() }
                   onBlur={ (e) => {
                     if (e.target.value === "") {
-                      e.target.value = String(shoppingCart[crop].quantity);
+                      setInputValues({ ...inputValues, [crop]: String(shoppingCart[crop].quantity) });
                     }
                   }}
-                  defaultValue={ shoppingCart[crop].quantity }
+                  value={ inputValues[crop] }
                   id={ `buy-${crop}` }
                   type="number"
                   max={ seeds.getAvailableSpace(crop) }
