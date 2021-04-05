@@ -78,6 +78,16 @@ function SeedStall() {
     });
   }
 
+  function setSeedsToMax(crop: Crop) {
+    const count = seeds.getAvailableSpace(crop);
+    setNextCart(crop, count);
+  }
+
+  function addN(crop: Crop, n: number) {
+    const nextQuantity = shoppingCart[crop].quantity + n;
+    setNextCart(crop, Math.min(nextQuantity, seeds.getAvailableSpace(crop)));
+  }
+
   function validateInput(input: HTMLInputElement, crop: Crop) {
     // Set min and max, in case they were changed by user.
     input.min = "0";
@@ -133,6 +143,9 @@ function SeedStall() {
                   max={ seeds.getAvailableSpace(crop) }
                   min={ 0 } />
               </span>
+              <button onClick={ () => addN(crop, 3) }>add 3</button>
+              <button onClick={ () => addN(crop, 10) }>add 10</button>
+              <button onClick={ () => setSeedsToMax(crop) }>max</button>
             </div>
           ))
         }
