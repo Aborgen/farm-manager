@@ -45,6 +45,21 @@
   font-weight: bold;
 }
 
+
+.cream_button {
+  background: var(--cream);
+  color: black;
+  width: 5em;
+  min-height: 3.4rem;
+  letter-spacing: 0.1em;
+  border: 3px solid black;
+  border-radius: 5px;
+  font-size: 1.7rem;
+  text-shadow: none;
+  font-weight: bold;
+  line-height: 0.7em;
+}
+
 .button--selected {
   background: var(--grey);
   color: var(--off-cream) !important;

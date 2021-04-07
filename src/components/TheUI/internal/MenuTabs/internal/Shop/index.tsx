@@ -48,7 +48,7 @@ function Shop() {
             selected={ currentSection }
             setSelected={ openSection }
             tabsAreToggleButtons={ false }
-            style={ {buttonDefault: `${styles["shop-tab"]} black_bold-text`, buttonSelected: "button--selected"} } />
+            style={ {buttonDefault: "cream_button", buttonSelected: "button--selected"} } />
         </div>
         <div className={ styles["shop-container"] }>
           { node }

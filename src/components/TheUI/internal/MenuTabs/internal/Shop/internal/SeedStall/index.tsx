@@ -152,7 +152,7 @@ function SeedStall() {
       </ScrollableInterface>
       <div className={ styles["store-result"] }>
         <Tabulation cart={ shoppingCart } grandTotal={ grandTotal } />
-        <button className={ `${styles["buy-button"]} black_bold-text` } onClick={ () => buySeeds() }>buy</button>
+        <button className={ `${styles["buy-button"]} cream_button` } onClick={ () => buySeeds() }>buy</button>
       </div>
     </div>
   );

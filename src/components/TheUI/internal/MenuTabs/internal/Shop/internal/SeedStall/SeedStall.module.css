@@ -7,13 +7,7 @@
 }
 
 .buy-button {
-  background: var(--cream);
-  width: 5em;
-  height: 1.8em;
   font-size: 1.7em;
-  letter-spacing: 0.1em;
-  border-radius: 5px;
-  border: 3px solid black;
 }
 
 .shop-item {
