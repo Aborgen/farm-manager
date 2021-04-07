@@ -1,3 +1,4 @@
+/*
 import { Farmhand as FarmhandT, Specialty } from 'types/Farmhands';
 
 
@@ -11,8 +12,10 @@ function specialtyToClass(specialty: Specialty) {
 }
 
 function Farmhand(props: FarmhandT) {
+*/
+function Farmhand() {
   return (
-    <div className={ "farmhand" + specialtyToClass(props.specialty) } tabIndex={ 0 }>
+    <div className={ "farmhand" } tabIndex={ 0 }>
       <img className="svg-image" src="/farmhand.svg" />
     </div>
   );
