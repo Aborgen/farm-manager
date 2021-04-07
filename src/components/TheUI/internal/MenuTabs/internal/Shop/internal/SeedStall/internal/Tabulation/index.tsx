@@ -12,7 +12,9 @@ interface TabulationProps {
 function Tabulation(props: TabulationProps) {
   return (
     <section className={ styles["tabulation"] }>
-      <h5>Total: { props.grandTotal }</h5>
+      <h5
+        aria-live="polite">
+        Total: { props.grandTotal }</h5>
       <div className={ styles["grid"] }>
         <span>name</span>
         <span>qty.</span>

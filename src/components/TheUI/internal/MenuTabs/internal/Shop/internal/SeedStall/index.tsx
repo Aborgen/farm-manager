@@ -52,7 +52,7 @@ function SeedStall() {
     }
 
     const value = validateInput(input, crop);
-    if (value === shoppingCart[crop].quantity) {
+    if (value === shoppingCart[crop].quantity && inputValues[crop] === "") {
       return;
     }
 
@@ -113,7 +113,7 @@ function SeedStall() {
           Object.values(Crop).map((crop, key) => (
             <div key={ key } className={ styles["shop-item"] }>
               <span>{ crop }</span>
-              <span className="black_bold-text">{ seeds.priceCheck(crop) }</span>
+              <span data-testid={ `${crop}ListingPrice` } className="black_bold-text">{ seeds.priceCheck(crop) }</span>
               <span className={ styles["seed-count-container"] }>
                 <label className={ styles["seed-count_label"] } htmlFor={ `buy-${crop}` }>count</label>
                 <input className={ styles["seed-count"] }
