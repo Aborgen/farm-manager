@@ -58,7 +58,7 @@ function MenuTabs() {
         selected={ currentMenu }
         setSelected={ openMenu }
         tabsAreToggleButtons={ true }
-        style={ {buttonDefault: `${styles["menu-button"]} cream_text-with-border--large`, buttonSelected: "button--selected"} } />
+        style={ {buttonDefault: "orange_button", buttonSelected: "button--selected"} } />
       <OpenedMenu
         style={ getCurrentStyle() }
         menu={ getCurrentMenu() } />

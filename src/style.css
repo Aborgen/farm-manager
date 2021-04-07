@@ -34,9 +34,21 @@
   font-weight: normal;
 }
 
+.orange_button {
+  background: var(--orange);
+  color: var(--cream);
+  height: 2em;
+  border: 0.2rem solid black;
+  font-size: 2rem;
+  letter-spacing: 0.03em;
+  text-shadow: 0 0 0.08em black;
+  font-weight: bold;
+}
+
 .button--selected {
-  background: var(--grey) !important;
+  background: var(--grey);
   color: var(--off-cream) !important;
-  text-shadow: 0 0 0.15em black !important;
-  font-weight: bold !important;
+  text-shadow: 0 0 0.15em black;
+  font-weight: bold;
+}
 }
