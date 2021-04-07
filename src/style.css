@@ -66,4 +66,30 @@
   text-shadow: 0 0 0.15em black;
   font-weight: bold;
 }
+
+button:disabled {
+  font-weight: none !important;
+  font-style: italic;
+  font-shadow: none !important;
+}
+
+button:active:not(:disabled) {
+  vertical-align: top;
+  padding-top: 0.3em;
+}
+
+.cream_button:active {
+  background: var(--off-cream);
+}
+
+.cream_button:disabled {
+  color: #a6a9b1;
+}
+
+.button--selected:active {
+  background: var(--off-grey) !important;
+}
+
+.orange_button:active {
+  background: var(--off-orange);
 }
