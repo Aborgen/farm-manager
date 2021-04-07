@@ -10,13 +10,24 @@
   font-size: 1.7em;
 }
 
-.shop-item {
+.shop-item-container {
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 5px solid black;
+}
+
+.shop-item-container > div {
   width: 80%;
+}
+
+.shop-item {
   position: relative;
   display: grid;
   grid-template-columns: 1.3fr 0.7fr 1fr;
   align-items: center;
-  border-bottom: 5px solid black;
   padding: 0.2em;
 }
 
@@ -35,6 +46,28 @@
   width: 3em;
   padding: 0;
   margin: 0;
+}
+
+.button-list {
+  flex-basis: 1em;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  font-size: 0.1em;
+  margin-bottom: 2em;
+}
+
+.add-button {
+  background: var(--white);
+  width: 3em;
+  padding: 0.2em 0;
+  margin: 0 0.1em;
+  border: 2px solid black;
+}
+
+.add-button:active {
+  background: var(--off-white);
+  padding-bottom: 0.1em;
 }
 
 .store-result {

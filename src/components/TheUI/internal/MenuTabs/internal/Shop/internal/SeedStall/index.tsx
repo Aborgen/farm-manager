@@ -111,41 +111,45 @@ function SeedStall() {
       <ScrollableInterface width={ "95%" } height={ "70%" }>
         {
           Object.values(Crop).map((crop, key) => (
-            <div key={ key } className={ styles["shop-item"] }>
-              <span>{ crop }</span>
-              <span data-testid={ `${crop}ListingPrice` } className="black_bold-text">{ seeds.priceCheck(crop) }</span>
-              <span className={ styles["seed-count-container"] }>
-                <label className={ styles["seed-count_label"] } htmlFor={ `buy-${crop}` }>count</label>
-                <input className={ styles["seed-count"] }
-                  onChange={ (e) => updateCart(e, crop) }
-                  // Since input is of type number, onChange events do not fire if non-numerical text is input.
-                  onBeforeInput={ (e) => {
-                    // Data property definitely exists on onBeforeInput events. Not sure what to do about this.
-                    //@ts-ignore
-                    // Use parseInt, because it ignores whitespace.
-                    if(Number.isNaN(Number.parseInt(e.data))) {
-                      e.preventDefault();
-                    }
-                  }}
-                  onClick={ (e) => e.currentTarget.select() }
-                  onBlur={ (e) => {
-                    if (seeds.atCapacity(crop)) {
-                      return;
-                    }
+            <div key={ key } className={ styles["shop-item-container"] }>
+              <div className={ styles["shop-item"] }>
+                <span>{ crop }</span>
+                <span data-testid={ `${crop}ListingPrice` } className="black_bold-text">{ seeds.priceCheck(crop) }</span>
+                <span className={ styles["seed-count-container"] }>
+                  <label className={ styles["seed-count_label"] } htmlFor={ `buy-${crop}` }>count</label>
+                  <input className={ styles["seed-count"] }
+                    onChange={ (e) => updateCart(e, crop) }
+                    // Since input is of type number, onChange events do not fire if non-numerical text is input.
+                    onBeforeInput={ (e) => {
+                      // Data property definitely exists on onBeforeInput events. Not sure what to do about this.
+                      //@ts-ignore
+                      // Use parseInt, because it ignores whitespace.
+                      if(Number.isNaN(Number.parseInt(e.data))) {
+                        e.preventDefault();
+                      }
+                    }}
+                    onClick={ (e) => e.currentTarget.select() }
+                    onBlur={ (e) => {
+                      if (seeds.atCapacity(crop)) {
+                        return;
+                      }
 
-                    if (e.target.value === "") {
-                      setInputValues({ ...inputValues, [crop]: String(shoppingCart[crop].quantity) });
-                    }
-                  }}
-                  value={ inputValues[crop] }
-                  id={ `buy-${crop}` }
-                  type="number"
-                  max={ seeds.getAvailableSpace(crop) }
-                  min={ 0 } />
-              </span>
-              <button onClick={ () => addN(crop, 3) }>add 3</button>
-              <button onClick={ () => addN(crop, 10) }>add 10</button>
-              <button onClick={ () => setSeedsToMax(crop) }>max</button>
+                      if (e.target.value === "") {
+                        setInputValues({ ...inputValues, [crop]: String(shoppingCart[crop].quantity) });
+                      }
+                    }}
+                    value={ inputValues[crop] }
+                    id={ `buy-${crop}` }
+                    type="number"
+                    max={ seeds.getAvailableSpace(crop) }
+                    min={ 0 } />
+                </span>
+              </div>
+              <div className={ styles["button-list"] }>
+                <button className={ `${styles["add-button"]} black_bold-text` } onClick={ () => addN(crop, 3) }>add<br />3</button>
+                <button className={ `${styles["add-button"]} black_bold-text` } onClick={ () => addN(crop, 10) }>add<br />10</button>
+                <button className={ `${styles["add-button"]} black_bold-text` } onClick={ () => setSeedsToMax(crop) }>max</button>
+              </div>
             </div>
           ))
         }
