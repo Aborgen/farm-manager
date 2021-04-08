@@ -188,7 +188,7 @@ describe("Tests for the SeedStall section of the shop feature of the ui", () => 
     [ 10, /ten | 10/i,  [10, 15] ],
   ])("Pressing add %i button adds an equal amount to that particular seed count, clamped by the input.max property", (n, re, expectedValues) => {
     const input = querySeedInput("carrot");
-    const button = within(querySeedInput("carrot").parentNode.parentNode).getByRole("button", { name: re });
+    const button = within(querySeedInput("carrot").parentNode.parentNode.parentNode).getByRole("button", { name: re });
 
     let i = 1;
     const values = [];
@@ -259,8 +259,7 @@ describe("Tests for the SeedStall section of the shop feature of the ui", () => 
   });
 });
 
-
-describe("Tests for the JobBoard section of the shop feature of the ui", () => {
+describe.only("Tests for the JobBoard section of the shop feature of the ui", () => {
   beforeEach(() => {
     render(
       <PlayerActionsProvider>
@@ -281,5 +280,29 @@ describe("Tests for the JobBoard section of the shop feature of the ui", () => {
 
     screen.getByRole("button", { name: /job/i }).click();
     expect(screen.queryByRole("button", { name: /hire/i })).not.toBeNull();
+  });
+
+  test("Pressing the hire button increases the number of employed farmhands shown in farmhand count by one", () => {
+    const countElement = screen.getByTestId("jobBoard-farmhand-count");
+    expect(countElement).toHaveTextContent("0");
+    screen.getByRole("button", { name: /hire/i }).click();
+    expect(countElement).toHaveTextContent("1");
+  });
+
+  test("Pressing the hire button when at max capacity doesn't do anything", () => {
+    const button = screen.getByRole("button", { name: /hire/i });
+    const countElement = screen.getByTestId("jobBoard-farmhand-count");
+    const capacity = +screen.getByTestId("jobBoard-farmhand-capacity").textContent;
+
+    expect(button).toBeEnabled();
+    for (let i = 0; i < capacity; ++i) {
+      expect(+countElement.textContent).toBeLessThan(capacity);
+      button.click();
+    }
+
+    expect(button).toBeDisabled();
+    expect(+countElement.textContent).toEqual(capacity);
+    button.click();
+    expect(+countElement.textContent).toEqual(capacity);
   });
 });

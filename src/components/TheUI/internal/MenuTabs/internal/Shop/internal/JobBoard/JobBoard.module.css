@@ -49,6 +49,10 @@
   align-items: center;
 }
 
+.action-label {
+  pointer-events: none;
+}
+
 .capacity {
   display: flex;
   flex-flow: column nowrap;

@@ -20,7 +20,7 @@ function JobBoard() {
           <div className={ styles["details"] }>
             <Farmhand />
             <div className={ styles["action"] }>
-              <label className="black_bold-text" htmlFor="farmhand-hire">6000</label>
+              <label className={ `${styles["action-label"]} black_bold-text` } htmlFor="farmhand-hire">6000</label>
               <button
                 className="cream_button"
                 id="farmhand-hire"
@@ -33,7 +33,9 @@ function JobBoard() {
           </div>
           <section className={ styles["capacity"] }>
             <h4 className={ `${styles["heading"]} cream_text-with-border--large` }>Farmhand</h4>
-            <div>{ `${farmhands.state.farmhandCount}/${farmhands.state.farmhandLimit}` }</div>
+            <div>
+              <span data-testid="jobBoard-farmhand-count">{ farmhands.state.farmhandCount }</span>/<span data-testid="jobBoard-farmhand-capacity">{ farmhands.state.farmhandLimit }</span>
+            </div>
           </section>
         </div>
       </div>
