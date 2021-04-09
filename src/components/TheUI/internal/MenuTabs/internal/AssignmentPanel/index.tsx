@@ -1,14 +1,15 @@
 import { useState } from 'react';
 
+import { Farmhand as FarmhandT } from 'types/Farmhands';
+import Farmhand from 'components/Farmhand';
+import TransferMenu from 'components/TransferMenu';
 import { useFarmSupplyContext } from 'context/FarmSupply';
 import { Establishment } from 'context/FarmSupply/Establishments';
-import { Farmhand as FarmhandT } from 'types/Farmhands';
-import TransferMenu from 'components/TransferMenu';
-import Farmhand from 'components/Farmhand';
+import EstablishmentSelect from './internal/EstablishmentSelect';
+import styles from './AssignmentPanel.module.css';
 
 function AssignmentPanel() {
   const [ currentEstablishment, setCurrentEstablishment ] = useState<Establishment | null>(null);
-  const [ currentOption, setCurrentOption ] = useState<string | null>(null);
   const [ transferCount, setTransferCount ] = useState(0);
   const { establishments, farmhands } = useFarmSupplyContext();
 
@@ -27,7 +28,6 @@ function AssignmentPanel() {
     // since AssignmentPanel does not care if the state changes in an Establishment. They will remain at 0/3 until AssignmentPanel is re-rendered.
     window.setTimeout(() => {
       setCurrentEstablishment(null);
-      setCurrentOption(null);
       setTransferCount(0);
     }, 0);
 
@@ -35,39 +35,24 @@ function AssignmentPanel() {
   }
 
   return (
-    <div className="assignment-panel">
-      <TransferMenu
-        available={ farmhands.state.unassigned }
-        DisplayComponent={ Farmhand }
-        commitTransfer={ commitTransfer }
-        transferCountInc={ () => setTransferCount(transferCount + 1) }
-        transferCountDec={ () => setTransferCount(transferCount - 1) }
-        transferCountReset={ () => setTransferCount(0) } />
-      <label htmlFor="assignment-select">Assign farmhands to establishment</label>
-      <select
-        id="assignment-select"
-        onChange={ (e) => setCurrentOption(e.target.value) }
-        size={ Math.min(establishments.get().length + 1, 7) }
-        value={ currentOption === null ? "-1" : currentOption }>
-        <option value="-1"></option>
-      {
-        establishments.get().map((establishment: Establishment, i: number) => {
-          if (establishment.current === null) {
-            return null;
-          }
-
-          return (
-            <option key={ i }
-              onClick={ () => setCurrentEstablishment(establishment) }
-              value={ i }
-              title={ `${establishment.current.props.farmhandCount } out of ${establishment.current.props.farmhandCapacity} farmhands` }
-              disabled={ establishment.current.props.atFarmhandCapacity() || !establishment.current.props.canAcceptNFarmhands(transferCount) }>
-              { establishment.current.props.name } { establishment.current.props.farmhandCount }/{ establishment.current.props.farmhandCapacity }
-            </option>
-          );
-        })
-      }
-      </select>
+    <div className={ styles["assignment-panel"] }>
+      <div className={ styles["transfer-menu-container"] }>
+        <TransferMenu
+          available={ farmhands.state.unassigned }
+          DisplayComponent={ Farmhand }
+          commitTransfer={ commitTransfer }
+          transferCountInc={ () => setTransferCount(transferCount + 1) }
+          transferCountDec={ () => setTransferCount(transferCount - 1) }
+          transferCountReset={ () => setTransferCount(0) } />
+      </div>
+      <section className={ styles["action"] }>
+        <h2 className={ `${styles["action-heading"]} cream_text-with-border--large` }>Establishments</h2>
+        <EstablishmentSelect
+          currentEstablishment={ currentEstablishment }
+          setCurrentEstablishment={ setCurrentEstablishment }
+          transferCount={ transferCount } />
+        <button className="cream_button">commit</button>
+      </section>
     </div> 
   );
 }
