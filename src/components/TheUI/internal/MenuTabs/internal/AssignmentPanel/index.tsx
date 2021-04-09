@@ -11,9 +11,10 @@ import styles from './AssignmentPanel.module.css';
 function AssignmentPanel() {
   const [ currentEstablishment, setCurrentEstablishment ] = useState<Establishment | null>(null);
   const [ transferCount, setTransferCount ] = useState(0);
+  const [ fireTransfer, setFireTransfer ] = useState(false);
   const { establishments, farmhands } = useFarmSupplyContext();
 
-  function commitTransfer(inbound: FarmhandT[], outbound: FarmhandT[]) {
+  async function commitTransfer(inbound: FarmhandT[], outbound: FarmhandT[]) {
     if (currentEstablishment === null || outbound.length === 0) {
       return false;
     }
@@ -31,6 +32,7 @@ function AssignmentPanel() {
       setTransferCount(0);
     }, 0);
 
+    setFireTransfer(false);
     return true;
   }
 
@@ -43,7 +45,9 @@ function AssignmentPanel() {
           commitTransfer={ commitTransfer }
           transferCountInc={ () => setTransferCount(transferCount + 1) }
           transferCountDec={ () => setTransferCount(transferCount - 1) }
-          transferCountReset={ () => setTransferCount(0) } />
+          transferCountReset={ () => setTransferCount(0) }
+          fireTransfer={ fireTransfer }
+          setFireTransfer={ setFireTransfer } />
       </div>
       <section className={ styles["action"] }>
         <h2 className={ `${styles["action-heading"]} cream_text-with-border--large` }>Establishments</h2>
@@ -51,7 +55,8 @@ function AssignmentPanel() {
           currentEstablishment={ currentEstablishment }
           setCurrentEstablishment={ setCurrentEstablishment }
           transferCount={ transferCount } />
-        <button className="cream_button">commit</button>
+        <button className="cream_button"
+          onClick={ () => setFireTransfer(true) }>commit</button>
       </section>
     </div> 
   );

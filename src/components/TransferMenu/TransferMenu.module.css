@@ -1,0 +1,45 @@
+.transfer-menu {
+  width: 100%;
+  height: 100%;
+  background: var(--opal-green);
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3% 0;
+  box-sizing: border-box;
+}
+
+.pane {
+  height: 8em;
+  display: grid;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  grid-template-columns: 8em 13em;
+  grid-gap: 1em;
+  font-family: monospace, monospace;
+  justify-items: center;
+}
+
+.pane-heading {
+  font-size: 1.4em;
+}
+
+.display {
+  background: #3637344f;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  overflow-y: scroll;
+  padding: 0.3em 0;
+  box-sizing: border-box;
+  border: 4px inset var(--off-cream);
+}
+
+
+.display-item {
+  width: auto;
+}

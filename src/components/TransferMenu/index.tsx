@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
+import styles from './TransferMenu.module.css';
+
 export interface TransferMenuProps<T> {
   DisplayComponent: React.ComponentType<T>,
   available: T[],
-  commitTransfer: (inBound: T[], outBound: T[]) => void,
+  fireTransfer: boolean,
+  setFireTransfer: Function,
+  commitTransfer: (inbound: T[], outbound: T[]) => void,
   transferCountInc: Function,
   transferCountDec: Function,
   transferCountReset: Function,
@@ -27,6 +31,12 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
     setInbound(processInbound());
     props.transferCountReset();
   }, [props.available]);
+
+  useEffect(() => {
+    if (props.fireTransfer) {
+      commitTransfer();
+    }
+  }, [props.fireTransfer]);
 
   function processInbound() {
     return { ...props.available };
@@ -71,12 +81,13 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
 
   const { DisplayComponent } = props;
   return (
-    <div>
-      <section className="transfer-available transfer-pane">
-        <h3>Available</h3>
+    <div className={ styles["transfer-menu"] }>
+      <section className={ `${styles["available"]} ${styles["pane"]}` }>
+        <h3 className={ `${styles["pane-heading"]} cream_text-with-border--large` }>Available</h3>
+        <div className={ styles["display"] }>
         {
           Object.entries(inbound).map(([id, member]) => (
-            <div key={ id } className="transfer-display"
+            <div key={ id } className={ styles["display-item"] }
               onClick={ () => moveToPane(id, Pane.Right) }
               onKeyUp={ (e) => {
                 if (e.keyCode === 13) { moveToPane(id, Pane.Right) }
@@ -85,12 +96,14 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
             </div>
           ))
         }
+        </div>
       </section>
-      <section className="transfer-outbound transfer-pane">
-        <h3>Outbound</h3>
+      <section className={ `${styles["outbound"]} ${styles["pane"]}` }>
+        <h3 className={ `${styles["pane-heading"]} cream_text-with-border--large` }>Outgoing</h3>
+        <div className={ styles["display"] }>
         {
           Object.entries(outbound).map(([id, member]) => (
-            <div key={ id } className="transfer-display"
+            <div key={ id } className={ styles["display-item"] }
               onClick={ () => moveToPane(id, Pane.Left) }
               onKeyUp={ (e) => {
                 if (e.keyCode === 13) { moveToPane(id, Pane.Left) }
@@ -99,8 +112,8 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
             </div>
           ))
         }
+        </div>
       </section>
-      <button onClick={ () => commitTransfer() }>commit transfer</button>
     </div>
   );
 }
