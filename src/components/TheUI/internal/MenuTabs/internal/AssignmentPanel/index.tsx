@@ -14,7 +14,8 @@ function AssignmentPanel() {
   const [ fireTransfer, setFireTransfer ] = useState(false);
   const { establishments, farmhands } = useFarmSupplyContext();
 
-  async function commitTransfer(inbound: FarmhandT[], outbound: FarmhandT[]) {
+  function commitTransfer(inbound: FarmhandT[], outbound: FarmhandT[]) {
+    setFireTransfer(false);
     if (currentEstablishment === null || outbound.length === 0) {
       return false;
     }
@@ -32,7 +33,6 @@ function AssignmentPanel() {
       setTransferCount(0);
     }, 0);
 
-    setFireTransfer(false);
     return true;
   }
 
