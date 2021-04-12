@@ -2,7 +2,7 @@ import { renderHook, act } from '@testing-library/react-hooks';
 
 import { usePlayerActionsContext, PlayerActionsProvider } from 'context/PlayerActions';
 
-describe.only("Tests for the establishments section of FarmSupply", () => {
+describe("Tests for the establishments section of FarmSupply", () => {
   let playerActions;
   beforeEach(() => {
     playerActions = renderHook(() => usePlayerActionsContext(), {

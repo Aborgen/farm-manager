@@ -63,12 +63,6 @@ describe("Tests for the Plot component", () => {
     expect(findPlotRoot().querySelector(".plot-row-counter").textContent).toMatch(/1.*/);
   });
 
-  test("When farmhands are assigned to Plot, they are rendered within the component", () => {
-    expect(findPlotRoot().querySelectorAll(".farmhand").length).toEqual(0);
-    screen.getByRole("button", { name: "assign to" }).click();
-    expect(findPlotRoot().querySelectorAll(".farmhand").length).toEqual(1);
-  });
-
   test("When clicked, Row gains Focus and a dialogue appears within it", () => {
     findPlotRoot().click();
     screen.queryAllByRole("button", { name: /plant/i })[0].click();
