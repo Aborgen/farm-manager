@@ -44,6 +44,10 @@ function EstablishmentSelect(props: EstablishmentSelectProps) {
                   "black_bold-text"
                 }
                 onClick={ () => !isDisabled(establishment) && props.setCurrentEstablishment(establishment) }
+                onKeyUp={ (e) => {
+                  if (e.keyCode === 13) { !isDisabled(establishment) && props.setCurrentEstablishment(establishment) }
+                }}
+                tabIndex={ 0 }
                 title={ `${establishment.current.props.farmhandCount } out of ${establishment.current.props.farmhandCapacity} farmhands` }>
                 <div className={ styles["listing-container"] }>
                   <span>{ establishment.current.props.name }</span>
