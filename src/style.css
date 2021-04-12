@@ -86,10 +86,18 @@ button:active:not(:disabled) {
   color: #a6a9b1;
 }
 
+.cream_button:focus {
+  border: 2px dotted var(--grey);
+}
+
 .button--selected:active {
   background: var(--off-grey) !important;
 }
 
 .orange_button:active {
   background: var(--off-orange);
+}
+
+.orange_button:focus {
+  border: 2px dotted var(--white);
 }
