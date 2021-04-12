@@ -91,7 +91,8 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
               onClick={ () => moveToPane(id, Pane.Right) }
               onKeyUp={ (e) => {
                 if (e.keyCode === 13) { moveToPane(id, Pane.Right) }
-              }}>
+              }}
+              tabIndex={ 0 }>
               <DisplayComponent { ...member } />
             </div>
           ))
@@ -107,7 +108,8 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
               onClick={ () => moveToPane(id, Pane.Left) }
               onKeyUp={ (e) => {
                 if (e.keyCode === 13) { moveToPane(id, Pane.Left) }
-              }}>
+              }}
+              tabIndex={ 0 }>
               <DisplayComponent { ...member } />
             </div>
           ))

@@ -15,7 +15,7 @@ function Farmhand(props: FarmhandT) {
 */
 function Farmhand() {
   return (
-    <div className={ "farmhand" } tabIndex={ 0 }>
+    <div className={ "farmhand" }>
       <img className="svg-image" src="/farmhand.svg" />
     </div>
   );
