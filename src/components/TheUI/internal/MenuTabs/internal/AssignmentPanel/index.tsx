@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import { Farmhand as FarmhandT } from 'types/Farmhands';
-import Farmhand from 'components/Farmhand';
+import { Farmhand as FarmhandT, Specialty } from 'types/Farmhands';
+import Farmhand, { Size } from 'components/Farmhand';
 import TransferMenu from 'components/TransferMenu';
 import { useFarmSupplyContext } from 'context/FarmSupply';
 import { Establishment } from 'context/FarmSupply/Establishments';
@@ -41,7 +41,7 @@ function AssignmentPanel() {
       <div className={ styles["transfer-menu-container"] }>
         <TransferMenu
           available={ farmhands.state.unassigned }
-          DisplayComponent={ Farmhand }
+          DisplayComponent={ <Farmhand specialty={ Specialty.None } size={ Size.Small } /> }
           commitTransfer={ commitTransfer }
           transferCountInc={ () => setTransferCount(transferCount + 1) }
           transferCountDec={ () => setTransferCount(transferCount - 1) }

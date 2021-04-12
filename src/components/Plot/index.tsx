@@ -5,7 +5,7 @@ import { FarmSupply } from 'context/FarmSupply';
 import { GrowthStage, Crop } from 'types/Crops';
 import { Row, DefaultRow, RowProps, RowType } from './internal/Row';
 import PlowDialogue from './internal/PlowDialogue';
-import Farmhand from 'components/Farmhand';
+import Farmhand, { Size } from 'components/Farmhand';
 
 enum PlotGrade {
   Poor,
@@ -151,7 +151,9 @@ class PlotClass extends React.Component<PlotProps & EstablishmentProps, any> {
         <div className="establishment-display">
         {
           Object.values(this.props.farmhands).map((farmhand, key) => (
-            <Farmhand key={ key } { ...farmhand } />
+            <Farmhand key={ key }
+              specialty={ farmhand.specialty }
+              size={ Size.Medium } />
           ))
         }
         </div>

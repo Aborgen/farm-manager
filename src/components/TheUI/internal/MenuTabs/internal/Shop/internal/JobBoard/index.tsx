@@ -1,5 +1,6 @@
-import Farmhand from 'components/Farmhand';
+import Farmhand, { Size } from 'components/Farmhand';
 import { useFarmSupplyContext } from 'context/FarmSupply';
+import { Specialty } from 'types/Farmhands';
 import styles from './JobBoard.module.css';
 
 function JobBoard() {
@@ -18,7 +19,7 @@ function JobBoard() {
       <div className={ styles["listing-container"] }>
         <div className={ styles["listing"] }>
           <div className={ styles["details"] }>
-            <Farmhand />
+            <Farmhand specialty={ Specialty.None } size={ Size.Medium } />
             <div className={ styles["action"] }>
               <label className={ `${styles["action-label"]} black_bold-text` } htmlFor="farmhand-hire">6000</label>
               <button

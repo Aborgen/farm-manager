@@ -35,12 +35,12 @@
   justify-content: flex-start;
   align-items: flex-start;
   overflow-y: scroll;
-  padding: 0.3em 0;
+  padding: 0.3em 0 0.3em 0.2em;
   box-sizing: border-box;
   border: 4px inset var(--off-cream);
 }
 
-
 .display-item {
   width: auto;
+  margin: 0 -0.2em;
 }

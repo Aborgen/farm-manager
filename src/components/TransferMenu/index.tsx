@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './TransferMenu.module.css';
 
 export interface TransferMenuProps<T> {
-  DisplayComponent: React.ComponentType<T>,
+  DisplayComponent: React.ReactNode,
   available: T[],
   fireTransfer: boolean,
   setFireTransfer: Function,
@@ -86,14 +86,14 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
         <h3 className={ `${styles["pane-heading"]} cream_text-with-border--large` }>Available</h3>
         <div className={ styles["display"] }>
         {
-          Object.entries(inbound).map(([id, member]) => (
+          Object.keys(inbound).map(id => (
             <div key={ id } className={ styles["display-item"] }
               onClick={ () => moveToPane(id, Pane.Right) }
               onKeyUp={ (e) => {
                 if (e.keyCode === 13) { moveToPane(id, Pane.Right) }
               }}
               tabIndex={ 0 }>
-              <DisplayComponent { ...member } />
+              { DisplayComponent }
             </div>
           ))
         }
@@ -103,14 +103,14 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
         <h3 className={ `${styles["pane-heading"]} cream_text-with-border--large` }>Outgoing</h3>
         <div className={ styles["display"] }>
         {
-          Object.entries(outbound).map(([id, member]) => (
+          Object.keys(outbound).map(id => (
             <div key={ id } className={ styles["display-item"] }
               onClick={ () => moveToPane(id, Pane.Left) }
               onKeyUp={ (e) => {
                 if (e.keyCode === 13) { moveToPane(id, Pane.Left) }
               }}
               tabIndex={ 0 }>
-              <DisplayComponent { ...member } />
+              { DisplayComponent }
             </div>
           ))
         }
