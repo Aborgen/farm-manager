@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './TransferMenu.module.css';
 
 export interface TransferMenuProps<T> {
-  DisplayComponent: React.ReactNode,
+  DisplayComponent: React.ReactElement<T>,
   available: T[],
   fireTransfer: boolean,
   setFireTransfer: Function,
@@ -82,7 +82,7 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
   const { DisplayComponent } = props;
   return (
     <div className={ styles["transfer-menu"] }>
-      <section className={ `${styles["available"]} ${styles["pane"]}` }>
+      <section className={ styles["pane"] }>
         <h3 className={ `${styles["pane-heading"]} cream_text-with-border--large` }>Available</h3>
         <div className={ styles["display"] }>
         {
@@ -99,7 +99,7 @@ function TransferMenu<T>(props: TransferMenuProps<T>) {
         }
         </div>
       </section>
-      <section className={ `${styles["outbound"]} ${styles["pane"]}` }>
+      <section className={ styles["pane"] }>
         <h3 className={ `${styles["pane-heading"]} cream_text-with-border--large` }>Outgoing</h3>
         <div className={ styles["display"] }>
         {
