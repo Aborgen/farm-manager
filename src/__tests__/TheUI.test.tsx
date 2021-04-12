@@ -29,25 +29,25 @@ describe("Tests for rendering separate features of the ui", () => {
   });
 
   test("Pressing assign menu tab opens the AssignmentPanel", () => {
-    expect(screen.queryByRole("combobox", { name: /assign/i })).toBeNull();
+    expect(screen.queryByRole("heading", { name: /establishment/i })).toBeNull();
     screen.getByRole("button", { name: /assign/i }).click();
-    expect(screen.queryByRole("combobox", { name: /assign/i })).not.toBeNull();
+    expect(screen.queryByRole("heading", { name: /establishment/i })).not.toBeNull();
   });
 
   test("Pressing assign menu tab while AssignmentPanel is already open closes the AssignmentPanel", () => {
     screen.getByRole("button", { name: /assign/i }).click();
-    expect(screen.queryByRole("combobox", { name: /assign/i })).not.toBeNull();
+    expect(screen.queryByRole("heading", { name: /establishment/i })).not.toBeNull();
 
     screen.getByRole("button", { name: /assign/i }).click();
-    expect(screen.queryByRole("combobox", { name: /assign/i })).toBeNull();
+    expect(screen.queryByRole("heading", { name: /establishment/i })).toBeNull();
   });
 
   test("Pressing any other menu tab while AssignmentPanel is open closes the AssignmentPanel", () => {
     screen.getByRole("button", { name: /assign/i }).click();
-    expect(screen.queryByRole("combobox", { name: /assign/i })).not.toBeNull();
+    expect(screen.queryByRole("heading", { name: /establishment/i })).not.toBeNull();
 
     screen.getByRole("button", { name: /shop/i }).click();
-    expect(screen.queryByRole("combobox", { name: /assign/i })).toBeNull();
+    expect(screen.queryByRole("heading", { name: /establishment/i })).toBeNull();
   });
 
   test("Pressing shop menu tab opens the Shop", () => {
@@ -211,7 +211,7 @@ describe("Tests for the SeedStall section of the shop feature of the ui", () => 
 
   test("Pressing max button sets seed count to the maximum available seed count", () => {
     const input = querySeedInput("carrot");
-    const button = within(querySeedInput("carrot").parentNode.parentNode).getByRole("button", { name: /max/i });
+    const button = within(querySeedInput("carrot").parentNode.parentNode.parentNode).getByRole("button", { name: /max/i });
     expect(input.value).toEqual("");
     button.click();
     expect(input.value).toEqual(input.max);
@@ -259,7 +259,7 @@ describe("Tests for the SeedStall section of the shop feature of the ui", () => 
   });
 });
 
-describe.only("Tests for the JobBoard section of the shop feature of the ui", () => {
+describe("Tests for the JobBoard section of the shop feature of the ui", () => {
   beforeEach(() => {
     render(
       <PlayerActionsProvider>
