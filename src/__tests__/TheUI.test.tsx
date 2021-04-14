@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { FarmSupplyProvider } from 'context/FarmSupply';
 import { PlayerActionsProvider } from 'context/PlayerActions';
 import TheUI from 'components/TheUI';
+import Plot, { PlotGrade } from 'components/Plot';
 
 function querySeedInput(crop: string) {
   const inputList = screen.getAllByText(new RegExp(crop, "i"));
@@ -73,18 +74,81 @@ describe("Tests for rendering separate features of the ui", () => {
   });
 });
 
-//describe("Tests for the assign feature of the ui", () => {
-//  beforeEach(() => {
-//    render(
-//      <PlayerActionsProvider>
-//      <FarmSupplyProvider>
-//        <TheUI />
-//      </FarmSupplyProvider>
-//      </PlayerActionsProvider>
-//    );
-//  });
-//
-//});
+describe("Tests for the assign feature of the ui", () => {
+  beforeEach(() => {
+    render(
+      <PlayerActionsProvider>
+      <FarmSupplyProvider>
+        <TheUI />
+        <Plot grade={ PlotGrade.Good } index={ 0 } name={ "Test Plot" } />
+      </FarmSupplyProvider>
+      </PlayerActionsProvider>
+    );
+
+    userEvent.click(screen.getByRole("button", { name: /shop/i }));
+    userEvent.click(screen.getByRole("button", { name: /job/i }));
+    userEvent.click(screen.getByRole("button", { name: /hire/i }));
+    userEvent.click(screen.getByRole("button", { name: /hire/i }));
+    userEvent.click(screen.getByRole("button", { name: /hire/i }));
+    userEvent.click(screen.getByRole("button", { name: /hire/i }));
+    expect(screen.getByTestId("jobBoard-farmhand-count").textContent).toEqual("4");
+
+    userEvent.click(screen.getByRole("button", { name: /assign/i }));
+    
+    expect(screen.getAllByAltText(/farmhand/i).length).toEqual(4);
+  });
+
+  test("After placing farmhands in outbound and selecting a plot, pushing button moves that farmhand into the plot", () => {
+    // Move farmhand from available to outgoing pane
+    const availableFarmhandsF = () => within(screen.getByRole("heading", { name: /available/i }).parentNode).queryAllByAltText(/farmhand/i);
+    const outgoingFarmhandsF = () => within(screen.getByRole("heading", { name: /outgoing/i }).parentNode).queryAllByAltText(/farmhand/i);
+    const availableLength = availableFarmhandsF().length;
+    expect(outgoingFarmhandsF().length).toEqual(0);
+    userEvent.click(availableFarmhandsF()[0]);
+    expect(outgoingFarmhandsF().length).toEqual(1);
+    expect(availableFarmhandsF().length).toEqual(availableLength - 1);
+
+    // Move farmhand into establishment
+    const selection = within(screen.getByRole("heading", { name: /establishments/i }).parentNode).getByText("Test Plot");
+    const establishmentF = () => within(screen.getByText(/name.*Test Plot/i).parentNode);
+    const farmhandCountF = () => screen.getByTestId("establishmentSelect-farmhand-count_0");
+    expect(farmhandCountF().textContent).toEqual("0");
+    expect(establishmentF().queryAllByAltText(/farmhand/i).length).toEqual(0);
+    userEvent.click(selection);
+    userEvent.click(screen.getByRole("button", { name: /commit/i }));
+    // Outgoing pane is cleared when transfer happens
+    expect(outgoingFarmhandsF().length).toEqual(0);
+    expect(farmhandCountF().textContent).toEqual("1");
+    expect(establishmentF().queryAllByAltText(/farmhand/i).length).toEqual(1);
+  });
+
+  test("User is unable to move more farmhands than plot's farmhand capacity", () => {
+    // Move farmhand from available to outgoing pane
+    const availableFarmhandsF = () => within(screen.getByRole("heading", { name: /available/i }).parentNode).queryAllByAltText(/farmhand/i);
+    const outgoingFarmhandsF = () => within(screen.getByRole("heading", { name: /outgoing/i }).parentNode).queryAllByAltText(/farmhand/i);
+    const availableLength = availableFarmhandsF().length;
+    expect(outgoingFarmhandsF().length).toEqual(0);
+    for (let i = 0; i < 4; ++i) {
+      userEvent.click(availableFarmhandsF()[0]);
+    }
+
+    expect(outgoingFarmhandsF().length).toEqual(4);
+    expect(availableFarmhandsF().length).toEqual(availableLength - 4);
+
+    // Fail to move farmhand into establishment
+    const selection = within(screen.getByRole("heading", { name: /establishments/i }).parentNode).getByText("Test Plot");
+    const establishmentF = () => within(screen.getByText(/name.*Test Plot/i).parentNode);
+    const farmhandCountF = () => screen.getByTestId("establishmentSelect-farmhand-count_0");
+    expect(farmhandCountF().textContent).toEqual("0");
+    expect(establishmentF().queryAllByAltText(/farmhand/i).length).toEqual(0);
+    userEvent.click(selection);
+    userEvent.click(screen.getByRole("button", { name: /commit/i }));
+    // Outgoing pane is unchanged
+    expect(outgoingFarmhandsF().length).toEqual(4);
+    expect(farmhandCountF().textContent).toEqual("0");
+    expect(establishmentF().queryAllByAltText(/farmhand/i).length).toEqual(0);
+  });
+});
 
 describe("Tests for the SeedStall section of the shop feature of the ui", () => {
   beforeEach(() => {
