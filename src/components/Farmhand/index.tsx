@@ -24,7 +24,7 @@ function getImage(specialty: Specialty) {
 function Farmhand(props: FarmhandProps) {
   return (
     <div className={ `${styles["container"]} ${styles[props.size]}` }>
-      <img className={ styles["image"] } src={ `/${getImage(props.specialty)}.svg` } />
+      <img className={ styles["image"] } src={ `/${getImage(props.specialty)}.svg` } alt={ getImage(props.specialty) }/>
     </div>
   );
 }
