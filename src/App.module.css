@@ -1,6 +1,7 @@
 .app {
   display: flex;
   height: 100vh;
-  flex-flow: row wrap;
+  flex-flow: row nowrap;
   box-sizing: border-box;
+  overflow: hidden;
 }
