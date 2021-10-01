@@ -7,6 +7,8 @@ import { Row, DefaultRow, RowProps, RowType } from './internal/Row';
 import PlowDialogue from './internal/PlowDialogue';
 import Farmhand, { Size } from 'components/Farmhand';
 
+import styles from './Plot.module.css';
+
 enum PlotGrade {
   Poor,
   Good,
@@ -140,15 +142,15 @@ class PlotClass extends React.Component<PlotProps & EstablishmentProps, any> {
 
   render() {
     return (
-      <section className={`plot${this.props.isFocused ? " focused" : ""}`}
+      <section className={ `${styles.plot}${this.props.isFocused ? " focused" : ""}` }
         onClick={ (e) => this.props.handleClick(e) }>
         <h4>Name: { this.props.name }</h4>
         <PlowDialogue plowRow={ this.plowRow.bind(this) } />
-        <span className="plot-row-counter">{ `${this.state.plowedRows}/${this.state.rows.length}` }</span>
+        <span className={ styles["plot-row-counter"] }>{ `${this.state.plowedRows}/${this.state.rows.length}` }</span>
         {
           this.state.rows
         }
-        <div className="establishment-display">
+        <div className={ styles["establishment-display"] }>
         {
           Object.values(this.props.farmhands).map((farmhand, key) => (
             <Farmhand key={ key }

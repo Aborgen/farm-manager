@@ -1,0 +1,5 @@
+.plot {
+  background: var(--white);
+  padding: 0 3em;
+  box-sizing: border-box;
+}
