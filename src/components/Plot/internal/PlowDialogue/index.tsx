@@ -1,12 +1,14 @@
 import { Crop } from 'types/Crops';
 
+import styles from './PlowDialogue.module.css';
+
 type PlowDialogueProps = {
   plowRow: Function,
 };
 
 function PlowDialogue(props: PlowDialogueProps) {
   return (
-    <ol className="plow-dialogue">
+    <ol className={ styles["plow-dialogue"] }>
     {
       Object.entries(Crop).map(([k, v], key) => (
         <li key={ key }>
