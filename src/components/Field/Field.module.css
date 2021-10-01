@@ -1,7 +1,8 @@
 .field {
   background: var(--grass-green);
   flex: 1;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 1%;
 }
