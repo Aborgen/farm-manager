@@ -1,5 +1,36 @@
 .plot {
   background: var(--white);
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+
   padding: 0 3em;
   box-sizing: border-box;
+}
+
+.rows {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1%;
+}
+
+.establishment-display {
+  margin: 1em 0;
+}
+
+.workers-name {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.workers {
+  background: var(--off-cream);
+  width: 6em;
+  height: 3em;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  border: 1px black solid;
 }

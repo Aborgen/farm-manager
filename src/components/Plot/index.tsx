@@ -144,20 +144,27 @@ class PlotClass extends React.Component<PlotProps & EstablishmentProps, any> {
     return (
       <section className={ `${styles.plot}${this.props.isFocused ? " focused" : ""}` }
         onClick={ (e) => this.props.handleClick(e) }>
-        <h4>Name: { this.props.name }</h4>
-        <PlowDialogue plowRow={ this.plowRow.bind(this) } />
-        <span className={ styles["plot-row-counter"] }>{ `${this.state.plowedRows}/${this.state.rows.length}` }</span>
-        {
-          this.state.rows
-        }
+        <div>
+          <h4 className={ styles["plot-name"] }>Name: { this.props.name }</h4>
+          <PlowDialogue plowRow={ this.plowRow.bind(this) } />
+          <span className={ styles["plot-row-counter"] }>{ `${this.state.plowedRows}/${this.state.rows.length} planted` }</span>
+          <div className={ styles.rows }>
+          {
+            this.state.rows
+          }
+          </div>
+        </div>
         <div className={ styles["establishment-display"] }>
-        {
-          Object.values(this.props.farmhands).map((farmhand, key) => (
-            <Farmhand key={ key }
-              specialty={ farmhand.specialty }
-              size={ Size.Medium } />
-          ))
-        }
+          <h5 className={ styles["workers-name"] }>Workers</h5>
+          <section className={ styles.workers }>
+          {
+            Object.values(this.props.farmhands).map((farmhand, key) => (
+              <Farmhand key={ key }
+                specialty={ farmhand.specialty }
+                size={ Size.Small } />
+            ))
+          }
+          </section>
         </div>
       </section>
     );
