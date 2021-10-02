@@ -1,0 +1,21 @@
+.carrot {
+  background: var(--carrot);
+}
+
+.corn {
+  background: var(--corn);
+}
+
+.celery {
+  background: var(--celery);
+}
+
+.empty {
+  padding: 0 !important;
+}
+
+.row {
+  box-sizing: border-box;
+  padding: 0.6em 0;
+}
+

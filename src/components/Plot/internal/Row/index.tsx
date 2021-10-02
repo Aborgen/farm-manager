@@ -5,6 +5,8 @@ import SellDialogue from 'components/SellDialogue';
 
 import { Crop, GrowthStage } from 'types/Crops';
 
+import styles from './Row.module.css';
+
 type RowProps = {
   id: number,
   crop: Crop,
@@ -20,9 +22,9 @@ class RowClass extends React.Component<RowProps & FocusableProps> {
 
   render() {
     return (
-      <div className={ `${this.props.crop}-${this.props.stage}-row row` }
+      <div className={ `${styles[this.props.crop]} ${styles.row} ${this.props.isFocused ? "focused" : ""}` }
         onClick={ (e) => this.props.handleClick(e) }>
-        <span className={ `${this.props.crop}${ this.props.isFocused ? " focused" : ""}` }>
+        <span>
           { this.props.crop }, stage {this.props.stage}
         </span>
         { this.props.isFocused && <SellDialogue sell={ this.sell.bind(this) }/> }
@@ -38,7 +40,7 @@ function Row(props: RowProps) {
 
 function DefaultRow() {
   return (
-    <div className="empty-row">
+    <div className={ `${styles.row} ${styles.empty} ` }>
       <span>empty!</span>
     </div>
   );
