@@ -1,31 +1,24 @@
-import { useState } from 'react';
+import { useFarmSupplyContext } from 'context/FarmSupply';
+import { PlotGrade } from 'types/Plots';
+import Plot from 'components/Plot';
 
-import Plot, { PlotProps, PlotGrade } from 'components/Plot';
 import styles from './Field.module.css';
 
-
-const defaultProps: PlotProps[] = [
-  {
-    grade: PlotGrade.Poor,
-    index: 1,
-    name: "Plot1",
-  },
-  {
-    grade: PlotGrade.Excellent,
-    index: 2,
-    name: "Plot2",
-  }
-];
-
 export default function Field() {
-  const plots = useState(defaultProps)[0];
+  const { plots } = useFarmSupplyContext();
+
   return (
+    <>
     <div className={ styles.field }>
       {
-        plots.map((plot, key) => (
+        plots.state.plots.map((plot, key) => (
           <Plot key={ key } { ...plot } />
         ))
       }
     </div>
+    <button style={ {fontWeight: "bold", fontSize: "2em"} }
+      onClick={ () => !plots.atCapacity() && plots.purchasePlot(PlotGrade.Excellent) }
+      disabled={ plots.atCapacity() }>Purchase Plot</button>
+    </>
   );
 }

@@ -7,21 +7,9 @@ import { Row, DefaultRow, RowProps, RowType } from './internal/Row';
 import PlowDialogue from './internal/PlowDialogue';
 import Farmhand, { Size } from 'components/Farmhand';
 
+import { Plot as PlotProps, PlotGrade } from 'types/Plots';
+
 import styles from './Plot.module.css';
-
-enum PlotGrade {
-  Poor,
-  Good,
-  Great,
-  Excellent,
-};
-
-// PlotProps is needed by itself in Field, otherwise would extend EstablishmentProps
-interface PlotProps {
-  grade: PlotGrade,
-  index: number,
-  name: string,
-};
 
 class PlotClass extends React.Component<PlotProps & EstablishmentProps, any> {
   constructor(props: PlotProps & EstablishmentProps) {
