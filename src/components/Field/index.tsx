@@ -9,8 +9,8 @@ export default function Field() {
   return (
     <div className={ styles.field }>
       {
-        plots.state.plots.map((plot, key) => (
-          <Plot key={ key } { ...plot } />
+        plots.state.plots.map((plot, idx) => (
+          <Plot key={ idx } { ...plot } setName={ (name: string) => plots.setName(idx, name) } />
         ))
       }
     </div>

@@ -11,3 +11,6 @@ export interface Plot {
   name: string,
 };
 
+export interface PlotProps extends Plot {
+  setName: Function,
+};

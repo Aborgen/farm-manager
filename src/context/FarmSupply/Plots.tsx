@@ -8,13 +8,6 @@ interface PlotState {
   plots: Plot[],
 };
 
-//const demographics: Demographics = {
-//  [Specialty.None]: {
-//    count: 0,
-//    farmhands: {}
-//  },
-//};
-
 const defaultState: PlotState = {
   plotCount: 0,
   plotLimit: 15,
@@ -24,11 +17,13 @@ const defaultState: PlotState = {
 enum Actions {
   Purchase,
   SetPlotLimit,
+  SetName,
 };
 
 type ActionsType =
 | { type: Actions.Purchase, grade: PlotGrade }
-| { type: Actions.SetPlotLimit, limit: number };
+| { type: Actions.SetPlotLimit, limit: number }
+| { type: Actions.SetName, idx: number, name: string };
 
 function reducer(state: PlotState, action: ActionsType) {
   switch (action.type) {
@@ -59,6 +54,18 @@ function reducer(state: PlotState, action: ActionsType) {
         plotLimit: action.limit,
       };
     }
+    case Actions.SetName: {
+      if (state.plots.length === 0) {
+        return state;
+      }
+
+      const nextPlots = state.plots.slice();
+      nextPlots[action.idx].name = action.name.slice(0, 15);
+      return {
+        ...state,
+        plots: nextPlots,
+      };
+    }
     default:
       return state;
   }
@@ -68,6 +75,7 @@ type PlotsContextStore = {
   state: PlotState,
   purchasePlot: Function,
   setPlotLimit: Function,
+  setName: Function,
   hasPlots: Function,
   atCapacity: Function,
 };
@@ -78,6 +86,7 @@ function usePlots() {
     state,
     purchasePlot: (grade: PlotGrade) => dispatch({  type: Actions.Purchase, grade }),
     setPlotLimit: (limit: number) => dispatch({ type: Actions.SetPlotLimit, limit }),
+    setName: (idx: number, name: string) => dispatch({ type: Actions.SetName, idx, name }),
     hasPlots: () => state.plotCount > 0,
     atCapacity: () => state.plotCount === state.plotLimit,
   };

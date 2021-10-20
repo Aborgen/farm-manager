@@ -5,9 +5,10 @@ import { FarmSupply } from 'context/FarmSupply';
 import { GrowthStage, Crop } from 'types/Crops';
 import { Row, DefaultRow, RowProps, RowType } from './internal/Row';
 import PlowDialogue from './internal/PlowDialogue';
+import PlotName from './internal/PlotName';
 import Farmhand, { Size } from 'components/Farmhand';
 
-import { Plot as PlotProps, PlotGrade } from 'types/Plots';
+import { PlotProps, PlotGrade } from 'types/Plots';
 
 import styles from './Plot.module.css';
 
@@ -17,6 +18,7 @@ class PlotClass extends React.Component<PlotProps & EstablishmentProps, any> {
     this.state = {
       rows: this.defaultRows(),
       plowedRows: 0,
+      nameSelected: false,
     };
   }
 
@@ -133,7 +135,7 @@ class PlotClass extends React.Component<PlotProps & EstablishmentProps, any> {
       <section className={ `${styles.plot}${this.props.isFocused ? " focused" : ""}` }
         onClick={ (e) => this.props.handleClick(e) }>
         <div>
-          <h4 className={ styles["plot-name"] }>Name: { this.props.name }</h4>
+          <PlotName name={ this.props.name } setName={ this.props.setName } />
           <PlowDialogue plowRow={ this.plowRow.bind(this) } />
           <span className={ styles["plot-row-counter"] }>{ `${this.state.plowedRows}/${this.state.rows.length} planted` }</span>
           <div className={ styles.rows }>
